@@ -1,44 +1,56 @@
-import React from 'react'
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-
-const containerStyle = {
-  width: '100%',
-  height: '100vh'
-};
-
-const center = {
-  lat: 52.1951,
-  lng: 0.1313
-};
+import React, {useState, useCallback} from 'react';
+import {GoogleMapsProvider} from '@ubilabs/google-maps-react-hooks';
 
 function Map() {
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: process.env.REACT_APP_MAPSAPIKEY
-  })
+  const [mapContainer, setMapContainer] = useState(null);
+  const mapRef = useCallback(node => {
+    node && setMapContainer(node);
+  }, []);
 
-  const [, setMap] = React.useState(null)
+  const mapOptions = {
+    center: {
+      lat: 52.1951,
+      lng: 0.1313
+    },
+    zoom: 13,
+    mapId: process.env.REACT_APP_MAP_ID
+  };
 
-  const onLoad = React.useCallback(function callback(map) {
-    map.setZoom(13)
-    setMap(map)
-  }, [])
+  const onLoad = useCallback((map) => addZoneLayer(map), []);
 
-  const onUnmount = React.useCallback(function callback() {
-    setMap(null)
-  }, [])
-
-  return isLoaded ? (
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
+  return (
+    <GoogleMapsProvider
+      googleMapsAPIKey={process.env.REACT_APP_MAP_API_KEY}
+      mapContainer={mapContainer}
+      mapOptions={mapOptions}
+      version="beta"
+      onLoadMap={onLoad}
       >
-        { /* Child components, such as markers, info windows, etc. */ }
-        <></>
-      </GoogleMap>
-  ) : <></>
+      
+        <div ref={mapRef} style={{height: '100vh'}} />
+      
+    </GoogleMapsProvider>
+  );
 }
 
-export default React.memo(Map)
+function addZoneLayer(map) {
+
+  if (!map.getMapCapabilities().isDataDrivenStylingAvailable) return;
+
+
+  const featureLayer = map.getFeatureLayer("ADMINISTRATIVE_AREA_LEVEL_4");
+  featureLayer.style = (options) => {
+    // const feature = options.feature;
+
+    return;
+    // return {
+    //   strokeColor: "#810FCB",
+    //   strokeOpacity: 1.0,
+    //   strokeWeight: 3.0,
+    //   fillColor: "#810FCB",
+    //   fillOpacity: 0.5,
+    // };
+  }
+}
+
+export default Map;
