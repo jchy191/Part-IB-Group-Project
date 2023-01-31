@@ -11,6 +11,9 @@ A few prerequisite software is required in order to run and develop locally.
   https://devopswithdocker.com/ is a good place to learn more about Docker & containerisation
 
 ## Set up
+> **When running for the first time**, run the `npm install` command in the `Part-IB-Group-Project/Frontend` directory.
+
+
 1. Ensure Docker Desktop is running.
 2. Run `npm start` command in the `Part-IB-Group-Project/Frontend` directory.
 3. The webapp should start and will be accessible on [http://localhost:3000](http://localhost:3000). 
