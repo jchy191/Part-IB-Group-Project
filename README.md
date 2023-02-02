@@ -2,7 +2,7 @@
 
 ## Overview
 
-[Frontend Webapp](Frontend)
+[Frontend Webapp](Frontend)\
 [Backend API Server](Backend)
 
 ## Git Branching Strategy
