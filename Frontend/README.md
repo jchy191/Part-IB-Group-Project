@@ -19,6 +19,6 @@ This step is required so that we do not commit & push any API keys on git.
 ## Usual development
 1. Ensure Docker Desktop is running.
 2. Run `npm start` command in the `Part-IB-Group-Project/Frontend` directory.
-3. The webapp should start and will be accessible on [http://localhost:3000](http://localhost:3000). 
+3. The webapp should start and will be accessible on [http://127.0.0.1:3000](http://127.0.0.1:3000). 
 
 Live reload has been set up, i.e., any changes saved will visible after refreshing the webpage.
