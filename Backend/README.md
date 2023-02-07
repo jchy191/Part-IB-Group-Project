@@ -14,8 +14,9 @@ A few prerequisite software is required in order to run and develop locally.
 1. Clone the repository from the parent directory `Part-IB-Group-Project`. 
 2. Add the `.env` file into the `Part-IB-Group-Project/Backend` (i.e., create a `Part-IB-Group-Project/Backend/.env` file)\
 This step is required so that we do not commit & push any API keys on git.
+3. Run `python3 -m venv env` to create & enter the python virtual environment, and then `pip install -r requirements.txt`
 
-## Development in Python venv (Virutal Environment)
+## Development in Python venv (Virtual Environment)
 1. In the `Part-IB-Group-Project/Backend` directory, run\
    Mac/Linux: `source env/bin/activate`\
    Windows: `use env/bin/activate`
