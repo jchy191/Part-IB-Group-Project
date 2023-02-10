@@ -37,15 +37,19 @@ elif os.environ.get("GOOGLE_CLOUD_PROJECT", None):
     client = secretmanager.SecretManagerServiceClient()
     settings_name = os.environ.get("SETTINGS_NAME", "django_settings")
     name = f"projects/{project_id}/secrets/{settings_name}/versions/latest"
-    payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
+    payload = client.access_secret_version(
+        name=name).payload.data.decode("UTF-8")
 
     env.read_env(io.StringIO(payload))
 else:
-    raise Exception("No local .env or GOOGLE_CLOUD_PROJECT detected. No secrets found.")
+    raise Exception(
+        "No local .env or GOOGLE_CLOUD_PROJECT detected. No secrets found.")
 # [END cloudrun_django_secret_config]
 
 SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
+CLOUD_DATABASE = os.environ.get("CLOUD_DATABASE", None)
+
 
 # [START cloudrun_django_csrf]
 # SECURITY WARNING: It's recommended that you use this when
@@ -114,17 +118,29 @@ WSGI_APPLICATION = "server.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-# [START cloudrun_django_database_config]
-# Use django-environ to parse the connection string
-DATABASES = {"default": env.db()}
+DATABASES = {}
+if CLOUD_DATABASE:
+    # [START cloudrun_django_database_config]
+    # Use django-environ to parse the connection string
+    DATABASES = {"default": env.db()}
 
-# If the flag as been set, configure to use proxy
-if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
-    DATABASES["default"]["HOST"] = "127.0.0.1"
-    DATABASES["default"]["PORT"] = 5432
+    # If the flag as been set, configure to use proxy
+    if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
+        DATABASES["default"]["HOST"] = "127.0.0.1"
+        DATABASES["default"]["PORT"] = 5432
 
-# [END cloudrun_django_database_config]
-
+    # [END cloudrun_django_database_config]
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': env("LOCAL_DB_NAME"),
+            'USER': env("LOCAL_DB_USER"),
+            'PASSWORD': env("LOCAL_DB_PASSWORD"),
+            'HOST': env("LOCAL_DB_HOST"),
+            'PORT': env("LOCAL_DB_PORT"),
+        }
+    }
 
 # Cross-Origin Resource Sharing (CORS)
 CORS_ALLOWED_ORIGINS = [
