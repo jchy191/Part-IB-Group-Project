@@ -1,3 +1,4 @@
 /env
 .env
+/api/__pycache__
 /server/__pycache__

@@ -13,14 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path, re_path
 from django.contrib import admin
 from rest_framework import routers
+from django.shortcuts import render
+from django.conf.urls import handler404
 
 router = routers.DefaultRouter()
-
 urlpatterns = router.urls
 
-urlpatterns += [
+def render_react(request):
+    return render(request, "index.html")
+
+urlpatterns = [
     path('admin/', admin.site.urls),
+    re_path(r"^$", render_react)
 ]
+
