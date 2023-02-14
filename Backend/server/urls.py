@@ -18,15 +18,19 @@ from django.contrib import admin
 from rest_framework import routers
 from django.shortcuts import render
 from django.conf.urls import handler404
+from api import views as core_views
 
 router = routers.DefaultRouter()
+
 urlpatterns = router.urls
+
 
 def render_react(request):
     return render(request, "index.html")
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('contact/', core_views.ContactAPIView.as_view()),
     re_path(r"^$", render_react)
 ]
-
