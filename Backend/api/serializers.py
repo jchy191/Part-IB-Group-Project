@@ -8,7 +8,7 @@ class ContactSerializer(serializers.ModelSerializer):
     name = CharField(source="title", required=True)
     message = CharField(source="description", required=True)
     email = EmailField(required=True)
-    email = BooleanField(required=True)
+    verified = BooleanField(required=True)
 
     class Meta:
         model = models.Contact

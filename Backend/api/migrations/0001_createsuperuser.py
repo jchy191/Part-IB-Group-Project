@@ -17,21 +17,21 @@ def createsuperuser(apps: StateApps, schema_editor: DatabaseSchemaEditor) -> Non
 
     client = secretmanager.SecretManagerServiceClient()
 
-    # Get project value for identifying current context
+    #Get project value for identifying current context
     _, project = google.auth.default()
 
-    # Retrieve the previously stored admin password
+    #Retrieve the previously stored admin password
     PASSWORD_NAME = os.environ.get("PASSWORD_NAME", "superuser_password")
     name = f"projects/{project}/secrets/{PASSWORD_NAME}/versions/latest"
     admin_password = client.access_secret_version(name=name).payload.data.decode(
         "UTF-8"
     )
 
-    if User.objects.get(username="admin"):
-        pass
-    else:
+    # if User.objects.get(username="admin"):
+    #     pass
+    # else:
         # Create a new user using acquired password, stripping any accidentally stored newline characters
-        User.objects.create_superuser("admin", password=admin_password.strip())
+    # User.objects.create_superuser("admin", password=admin_password.strip())
 
 
 class Migration(migrations.Migration):
