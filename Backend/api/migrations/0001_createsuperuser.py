@@ -26,10 +26,13 @@ def createsuperuser(apps: StateApps, schema_editor: DatabaseSchemaEditor) -> Non
     admin_password = client.access_secret_version(name=name).payload.data.decode(
         "UTF-8"
     )
-
-    if User.objects.get(username="admin"):
+    user = None
+    try:
+        user = User.objects.get(username="admin")
+    except Exception:
         pass
-    else:
+
+    if not user:
         # Create a new user using acquired password, stripping any accidentally stored newline characters
         User.objects.create_superuser("admin", password=admin_password.strip())
 
