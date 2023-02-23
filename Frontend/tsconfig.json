@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+      "jsx": "react",
+      "target": "es6",
+      "module": "commonjs",
+      "outDir": "dist",
+      "esModuleInterop": true,
+      "sourceMap": true,
+      "skipLibCheck": true,
+      "typeRoots": [
+        "node_modules/@types",
+        "src/types"
+    ],
+    },
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "./.eslintrc.js"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+}
