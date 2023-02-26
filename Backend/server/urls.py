@@ -32,5 +32,6 @@ def render_react(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('contact/', core_views.ContactAPIView.as_view()),
-    re_path(r"^$", render_react)
+    re_path(r"^$", render_react),
+    re_path(r'^.*/$', render_react)
 ]
