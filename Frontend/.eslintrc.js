@@ -25,5 +25,6 @@ module.exports = {
         'state',
       ],
     }],
+    'react/prop-types': 0,
   },
 };

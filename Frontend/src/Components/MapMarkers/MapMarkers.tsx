@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useGoogleMap } from '@ubilabs/google-maps-react-hooks';
-import { useStoreSelector } from '../../store/hooks';
+import { useStoreDispatch, useStoreSelector } from '../../store/hooks';
 import { selectMarkers } from '../../store/markersSlice';
 import Marker from '../../types/marker';
+import { openModal } from '../../store/modalSlice';
 
 function MapMarkers() {
   const map = useGoogleMap();
   const [, setMarkers] = useState<google.maps.Marker[]>([]);
   const locations: Marker[] = useStoreSelector((state) => selectMarkers(state));
+  const dispatch = useStoreDispatch();
 
   // Add markers to the map
   useEffect(() => {
@@ -29,6 +31,7 @@ function MapMarkers() {
       marker.addListener('click', () => {
         console.log(`Name: ${name}`);
         console.log(`Address: ${address}`);
+        dispatch(openModal());
       });
 
       return marker;

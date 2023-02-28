@@ -1,8 +1,7 @@
 import * as React from 'react';
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import accessCategories from "../AccessCategories/AccessCategories";
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,7 +10,9 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import CommentSection from "../CommentSection/CommentSection";
+import accessCategories from '../AccessCategories/AccessCategories';
+import Map from '../Map/Map';
+import CommentsModal from '../CommentsModal/CommentsModal';
 
 const drawerWidth = 240;
 
@@ -29,17 +30,18 @@ function ResponsiveDrawer(props) {
         Filters
       </Typography>
       <FormGroup sx={{ ml: 2 }}>
-        {Object.entries(accessCategories).map(([key, cat], index) => (
+        {Object.entries(accessCategories).map(([key, cat]) => (
           <FormControlLabel
-            control={
+            key={key}
+            control={(
               <Checkbox
                 defaultChecked
                 sx={{
                   color: cat.colour,
-                  "&.Mui-checked": { color: cat.colour }
+                  '&.Mui-checked': { color: cat.colour },
                 }}
               />
-            }
+            )}
             label={cat.name}
             labelPlacement="end"
           />
@@ -110,14 +112,13 @@ function ResponsiveDrawer(props) {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
-        <Toolbar />
-        <CommentSection />
+        <CommentsModal />
+        <Map />
       </Box>
     </Box>
   );
 }
-
 
 export default ResponsiveDrawer;

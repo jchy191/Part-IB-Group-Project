@@ -6,7 +6,6 @@ import Divider from '@mui/material/Divider';
 import PlaceIcon from '@mui/icons-material/Place';
 import accessCategories from '../AccessCategories/AccessCategories';
 
-
 function CommentSection() {
   const [comments, setComments] = useState([
     {
@@ -41,6 +40,7 @@ function CommentSection() {
       ...comments,
       {
         id: comments.length + 1,
+        heading: 'test',
         category: accessCategories.B,
         content: newComment,
         expanded: false,
@@ -100,7 +100,7 @@ function CommentSection() {
           <Typography variant="body2" component="p">
             {comment.expanded || comment.content.length < 100
               ? comment.content
-              : comment.content.substring(0, 100) + '...'}
+              : `${comment.content.substring(0, 100)}...`}
             {comment.content.length > 100 && (
               <Button
                 variant="text"

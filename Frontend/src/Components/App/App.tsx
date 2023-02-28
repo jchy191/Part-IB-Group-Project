@@ -4,12 +4,12 @@ import {
   RouterProvider,
   Navigate,
 } from 'react-router-dom';
-import Map from '../Map/Map';
+import ResponsiveDrawer from '../Drawer/Drawer';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Map />,
+    element: <ResponsiveDrawer />,
     errorElement: <Navigate to="/" replace />,
   },
 ]);
