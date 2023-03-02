@@ -7,24 +7,21 @@ import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
 import PlaceIcon from '@mui/icons-material/Place';
 import accessCategories from '../AccessCategories/AccessCategories';
 import CommentForm from '../CommentForm/CommentForm';
+import { Category } from '../../types/category';
 
 function CommentSection() {
   const [comments, setComments] = useState([
     {
       id: 1,
       heading: 'Place A',
-      categories: [
-        accessCategories.pub.t,
-        accessCategories.free.t,
-        accessCategories.quiet.t,
-      ],
+      categories: [],
       content:
         'This is the first comment. It is short and does not require a read more button.',
       expanded: false,
     },
     {
       id: 2,
-      category: [accessCategories.pub.f],
+      category: [],
       heading: 'Accessible',
       content:
         'This is the second comment. This means it is a bit longer and requires a read more button to expand the content.',
@@ -32,17 +29,28 @@ function CommentSection() {
     },
     {
       id: 3,
-      categories: [
-        accessCategories.friend.t,
-        accessCategories.free.t,
-        accessCategories.quiet.t,
-      ],
+      categories: [],
       heading: 'Title',
       content:
         'This is the third comment. It is a very long comment that requires a read more button to view the entire content. The quick brown fox jumps over the lazy dog. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sollicitudin magna in tortor interdum blandit. Duis mattis sodales augue. Nullam vel ante et neque pulvinar iaculis. Suspendisse potenti. Praesent ut purus vel odio efficitur posuere. Integer pharetra euismod elit, ut gravida neque. Nam id tempor nisl. Vestibulum tempor, nulla nec ullamcorper tristique, libero justo bibendum magna, non feugiat eros mauris a magna. Cras at nunc vel ipsum consectetur pharetra ut eget lectus. Nam accumsan faucibus purus, quis maximus quam vestibulum ut.',
       expanded: false,
     },
   ]);
+  const [newComment, setNewComment] = useState('');
+
+  const handleAddComment = () => {
+    setComments([
+      ...comments,
+      {
+        id: comments.length + 1,
+        heading: 'test',
+        category: accessCategories[Category.B],
+        content: newComment,
+        expanded: false,
+      },
+    ]);
+    setNewComment('');
+  };
 
   const handleExpandComment = (id) => {
     const updatedComments = comments.map((comment) => {

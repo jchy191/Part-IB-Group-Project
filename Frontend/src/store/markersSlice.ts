@@ -2,10 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from './store';
 import Marker from '../types/marker';
+import { Category } from '../types/category';
 
 // Define a type for the slice state
 interface MarkersState {
-  markersList: Marker[]
+  markersList: Marker[],
+  category: Category,
 }
 
 // Define the initial state using that type
@@ -16,8 +18,25 @@ const initialState: MarkersState = {
       latLng: { lat: 52.20373006412609, lng: 0.1176785438453587 },
       address: '58 Trumpington St, Cambridge CB2 1RH, UK',
       name: 'The Corpus Clock',
+      [Category.A]: true,
+      [Category.B]: true,
+      [Category.C]: true,
+      [Category.D]: true,
+      [Category.E]: true,
+    },
+    {
+      placeId: 'ChIJmxZmlr1w2EcRoYdWLTCzDvU',
+      latLng: { lat: 52.2053745, lng: 0.1190324 },
+      address: 'Market Hill, Cambridge CB1 0SS, UK',
+      name: 'Cambridge Market Square',
+      [Category.A]: false,
+      [Category.B]: false,
+      [Category.C]: false,
+      [Category.D]: false,
+      [Category.E]: false,
     },
   ],
+  category: Category.E,
 };
 
 export const markerSlice = createSlice({
@@ -30,12 +49,16 @@ export const markerSlice = createSlice({
         state.markersList.push(action.payload);
       }
     },
+    changeCategory: (state, action: PayloadAction<Category>) => {
+      state.category = action.payload;
+    },
   },
 });
 
-export const { addMarker } = markerSlice.actions;
+export const { addMarker, changeCategory } = markerSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectMarkers = (state: RootState) => state.markers.markersList;
+export const selectCategory = (state: RootState) => state.markers.category;
 
 export default markerSlice.reducer;

@@ -4,6 +4,7 @@ import MapMarkers from '../MapMarkers/MapMarkers';
 import { useStoreDispatch } from '../../store/hooks';
 import Marker from '../../types/marker';
 import { addMarker } from '../../store/markersSlice';
+import { Category } from '../../types/category';
 
 function Map() {
   const [mapContainer, setMapContainer] = useState(null);
@@ -48,6 +49,12 @@ function Map() {
               },
               address: formattedAddress,
               name,
+              [Category.A]: true,
+              [Category.B]: true,
+              [Category.C]: true,
+              [Category.D]: true,
+              [Category.E]: true,
+
             };
             dispatch(addMarker(newMarker));
           }
