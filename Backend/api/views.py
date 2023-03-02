@@ -29,12 +29,12 @@ def updateacc(data):
         acc_entry = AccEntry.objects.get(pk=data['pid'])
         acc_entry_values = AccEntry.objects.filter(pid__exact=data['pid']).values()[0]
         updates = acc_entry_values.copy()
-        for i in range(len(ENTRY_TYPE)):
-            if data[ENTRY_TYPE[i]]== Entry.Type.FALSE:
-                updates[ACC_OPTIONS[2 * i]] = updates[ACC_OPTIONS[2 * i]] + 1
+        for type in ENTRY_TYPE:
+            if data[type]== Entry.Type.FALSE:
+                updates[type+"0"] = updates[type+"0"] + 1
 
-            if data[ENTRY_TYPE[i]] == Entry.Type.TRUE:
-                updates[ACC_OPTIONS[(2*i)+1]] = updates[ACC_OPTIONS[(2*i)+1]] + 1
+            if data[type] == Entry.Type.TRUE:
+                updates[type+"1"] = updates[type+"1"] + 1
         
         serializer = AccEntrySerializer(acc_entry, data=updates)
         if serializer.is_valid():
@@ -51,11 +51,11 @@ def updatetype(data):
         acc_entry = AccEntry.objects.get(pk=data['pid'])
         acc_entry_values = AccEntry.objects.filter(pid__exact=data['pid']).values()[0]
         updates = acc_entry_values.copy()
-        for i in range(len(ACC_TYPE)):
-            values = [acc_entry_values[ACC_OPTIONS[2*i]], acc_entry_values[ACC_OPTIONS[(2*i)+1]]]
+        for type in ENTRY_TYPE:
+            values = [acc_entry_values[type+"0"], acc_entry_values[type+"1"]]
             max = argmax(values)
-            if values[max] > values[acc_entry_values[ACC_TYPE[i]]]:
-                updates[ACC_TYPE[i]] = max
+            if values[max] > values[acc_entry_values[type+"_type"]]:
+                updates[type+"_type"] = max
 
         serializer = AccEntrySerializer(acc_entry, data=updates)
         if serializer.is_valid():

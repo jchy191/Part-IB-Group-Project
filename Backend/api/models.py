@@ -3,15 +3,15 @@ from utils.model_abstracts import Model
 
 ENTRY_TYPE = ['open', 'friendly', 'quiet', 'groups', 'spend']
 
-ACC_OPTIONS = ['closed','open', 'hostile','friendly', 'busy','quiet', 'bad_group','good_group', 'no_spend_pressure', 'spend_pressure']
-ACC_TYPE = ['open_type', 'friendly_type', 'quiet_type', 'good_group_type', 'spend_pressure_type']
+ACC_OPTIONS = ['open0','open1', 'friendly0','friendly1', 'quiet0','quiet1', 'groups0','groups1', 'spend0', 'spend1']
+ACC_TYPE = ['open_type', 'friendly_type', 'quiet_type', 'groups_type', 'spend_type']
 
 
 
 class Entry(models.Model):
     class Type(models.IntegerChoices):
-        TRUE = 0
-        FALSE = 1
+        TRUE = 1
+        FALSE = 0
         NONE = 2
     created = models.DateTimeField(auto_now_add=True)
     pid = models.CharField(max_length=100, blank=True, default='')
@@ -37,20 +37,20 @@ class AccEntry(models.Model):
     open_type = models.BooleanField(default=False)
     friendly_type = models.BooleanField(default=False)
     quiet_type = models.BooleanField(default=False)
-    good_group_type = models.BooleanField(default=False)
-    spend_pressure_type = models.BooleanField(default=False)
+    groups_type = models.BooleanField(default=False)
+    spend_type = models.BooleanField(default=False)
     long = models.FloatField(default=0)
     lat = models.FloatField(default=0)
-    open = models.IntegerField(default=0)
-    closed = models.IntegerField(default=0)
-    friendly = models.IntegerField(default=0)
-    hostile = models.IntegerField(default=0)
-    quiet = models.IntegerField(default=0)
-    busy = models.IntegerField(default=0)
-    good_group = models.IntegerField(default=0)
-    bad_group = models.IntegerField(default=0)
-    spend_pressure = models.IntegerField(default=0)
-    no_spend_pressure = models.IntegerField(default=0)
+    open0 = models.IntegerField(default=0)
+    open1 = models.IntegerField(default=0)
+    friendly0 = models.IntegerField(default=0)
+    friendly1 = models.IntegerField(default=0)
+    quiet0 = models.IntegerField(default=0)
+    quiet1 = models.IntegerField(default=0)
+    groups0 = models.IntegerField(default=0)
+    groups1 = models.IntegerField(default=0)
+    spend0 = models.IntegerField(default=0)
+    spend1 = models.IntegerField(default=0)
     
     class Meta:
         ordering = ['pid']
