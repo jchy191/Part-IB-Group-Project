@@ -4,18 +4,6 @@ import CommentSection from '../CommentSection/CommentSection';
 import { useStoreDispatch, useStoreSelector } from '../../store/hooks';
 import { closeModal, selectIsModalOpen } from '../../store/modalSlice';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
 function CommentsModal() {
   const isOpen = useStoreSelector((state) => selectIsModalOpen(state));
   const dispatch = useStoreDispatch();
@@ -29,7 +17,22 @@ function CommentsModal() {
       open={isOpen}
       onClose={handleClose}
     >
-      <Box sx={style}>
+      <Box
+        textAlign="center"
+        overflow="scroll"
+        sx={{
+          bgcolor: 'white',
+          boxShadow: 3,
+          p: 2,
+          margin: 'auto',
+          height: 0.8,
+          width: 0.8,
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
         <CommentSection />
       </Box>
     </Modal>

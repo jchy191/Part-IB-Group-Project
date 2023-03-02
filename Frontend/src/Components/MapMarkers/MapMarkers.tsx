@@ -29,7 +29,9 @@ function MapMarkers() {
       const marker = new window.google.maps.Marker(markerOptions);
 
       marker.addListener('click', () => {
+        // eslint-disable-next-line no-console
         console.log(`Name: ${name}`);
+        // eslint-disable-next-line no-console
         console.log(`Address: ${address}`);
         dispatch(openModal());
       });
