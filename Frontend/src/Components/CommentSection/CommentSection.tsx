@@ -3,11 +3,10 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
 import PlaceIcon from '@mui/icons-material/Place';
 import accessCategories from '../AccessCategories/AccessCategories';
 import CommentForm from '../CommentForm/CommentForm';
-import { Category } from '../../types/category';
+import ReportComment from '../ReportComment/ReportComment';
 
 function CommentSection() {
   const [comments, setComments] = useState([
@@ -18,14 +17,17 @@ function CommentSection() {
       content:
         'This is the first comment. It is short and does not require a read more button.',
       expanded: false,
+      reported: false,
     },
     {
       id: 2,
       category: [],
       heading: 'Accessible',
+      pinned: true,
       content:
         'This is the second comment. This means it is a bit longer and requires a read more button to expand the content.',
       expanded: false,
+      reported: true,
     },
     {
       id: 3,
@@ -34,6 +36,7 @@ function CommentSection() {
       content:
         'This is the third comment. It is a very long comment that requires a read more button to view the entire content. The quick brown fox jumps over the lazy dog. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sollicitudin magna in tortor interdum blandit. Duis mattis sodales augue. Nullam vel ante et neque pulvinar iaculis. Suspendisse potenti. Praesent ut purus vel odio efficitur posuere. Integer pharetra euismod elit, ut gravida neque. Nam id tempor nisl. Vestibulum tempor, nulla nec ullamcorper tristique, libero justo bibendum magna, non feugiat eros mauris a magna. Cras at nunc vel ipsum consectetur pharetra ut eget lectus. Nam accumsan faucibus purus, quis maximus quam vestibulum ut.',
       expanded: false,
+      reported: true,
     },
   ]);
   const [newComment, setNewComment] = useState('');
@@ -82,9 +85,7 @@ function CommentSection() {
               {' '}
               {comment.heading}
             </Typography>
-            <Button variant="text" color="error" size="small" sx={{ mb: 2 }}>
-              <FlagRoundedIcon />
-            </Button>
+            <ReportComment />
           </Box>
           <Typography variant="body2" component="p">
             {comment.expanded || comment.content.length < 100

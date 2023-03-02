@@ -14,14 +14,17 @@ export default function CommentForm() {
     {
       id: 1,
       heading: 'Place A',
+
       categories: [
         accessCategories.pub.t,
         accessCategories.free.f,
         accessCategories.friend.f,
       ],
+      pin: false,
       content:
         'This is the first comment. It is short and does not require a read more button.',
       expanded: false,
+      reported: true,
     },
   ]);
 
@@ -42,8 +45,10 @@ export default function CommentForm() {
           accessCategories.free.t,
           accessCategories.quiet.t,
         ],
+        pin: false,
         content: newComment,
         expanded: false,
+        reported: true,
       },
     ]);
     setNewComment('');

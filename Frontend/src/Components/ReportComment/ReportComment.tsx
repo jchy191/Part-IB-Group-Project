@@ -1,25 +1,23 @@
-/*
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
 import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-// eslint-disable-next-line react/jsx-props-no-spreading
- <Alert
- onClose={handleClose}
- severity="error"
-  sx={{ width: '100%' }}
-   icon={<FlagRoundedIcon />}
-    variant="filled" elevation={6}/>;
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>((
+  props,
+  ref,
+) => <MuiAlert icon={<FlagRoundedIcon />} variant="filled" elevation={6} ref={ref} {...props} />);
 
-export default function ReportComment() {
+export default function CustomizedSnackbars() {
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(true);
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -33,11 +31,10 @@ export default function ReportComment() {
         <FlagRoundedIcon />
       </Button>
       <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-        <MuiAlert>
-          Comment Reported
-        </MuiAlert>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Comment has been Reported
+        </Alert>
       </Snackbar>
     </div>
   );
 }
-*/
