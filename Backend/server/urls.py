@@ -31,8 +31,6 @@ def render_react(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('entry/', core_views.EntryList.as_view()),
-    #path('entry/<int:pk>/', core_views.EntryDetail.as_view()),
     path('', include('api.urls')),
 
     re_path(r"^$", render_react),

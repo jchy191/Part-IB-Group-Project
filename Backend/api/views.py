@@ -2,62 +2,97 @@ from json import JSONDecodeError
 from django.http import JsonResponse, Http404
 from .models import Entry, AccEntry, ACC_OPTIONS, ACC_TYPE, ENTRY_TYPE
 from .serializers import AccEntrySerializer, EntrySerializer, AllSerializer
-from rest_framework.parsers import JSONParser
-from rest_framework import views, status
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from numpy import argmax
 
 class AllList(APIView):
+    """
+    Called by the front-end when displaying all the icons
+    GET -> (_pid, types) where types are the result of the majority vote
+    """
     def get(self, request, format=None):
         entries = AccEntry.objects.all()
         serializer = AllSerializer(entries, many=True)
         return Response(serializer.data)
 
+
 class AccEntryList(APIView):
     """
-    List all snippets, or create a new snippet.
+    List all Accumulative Entries
+    GET -> ()
     """
     def get(self, request, format=None):
         entries = AccEntry.objects.all()
         serializer = AccEntrySerializer(entries, many=True)
         return Response(serializer.data)
 
+
+class AccEntryDetail(APIView):
+    """
+    Get a specific Accumulative Entry with primary key (pid)
+    Called by the front-end when a specific building is selected and additional data is required
+    GET -> (_pid, accumulation of votes, result of votes)
+    """
+    def get_object(self, pk):
+        try:
+            return AccEntry.objects.get(pk=pk)
+        except AccEntry.DoesNotExist:
+            raise Http404
     
+    def get(self, request, pk, format=None):
+        entry = self.get_object(pk)
+        serializer = AccEntrySerializer(entry)
+        return Response(serializer.data)
+
+# Called whenever an entry is made and updates the Accumulator table
 def updateacc(data):
     try:
-        acc_entry = AccEntry.objects.get(pk=data['pid'])
-        acc_entry_values = AccEntry.objects.filter(pid__exact=data['pid']).values()[0]
-        updates = acc_entry_values.copy()
+        acc_entry = AccEntry.objects.get(pk=data['pid']) # Reference to the object in the table
+
+        # Gives a queryset that contains all entries with pid which will be one as it is a primary key in the table
+        # The queryset is in the form of a dictionary with keys corresponding to table entries
+        acc_entry_values = AccEntry.objects.filter(pid__exact=data['pid']).values()[0] 
+        
+        # Iterate through all the field types and increments the corresponding field
         for type in ENTRY_TYPE:
             if data[type]== Entry.Type.FALSE:
-                updates[type+"0"] = updates[type+"0"] + 1
+                acc_entry_values[type+"0"] = acc_entry_values[type+"0"] + 1
 
             if data[type] == Entry.Type.TRUE:
-                updates[type+"1"] = updates[type+"1"] + 1
+                acc_entry_values[type+"1"] = acc_entry_values[type+"1"] + 1
         
-        serializer = AccEntrySerializer(acc_entry, data=updates)
+        # Updates the entry using the object reference with the new values after all the incrementations
+        # and saves the entries to the table
+        serializer = AccEntrySerializer(acc_entry, data=acc_entry_values)
         if serializer.is_valid():
             serializer.save()
 
+    # If there is no existing entry, the code creates a new entry and calls the function again
     except AccEntry.DoesNotExist:
         acc_serializer = AccEntrySerializer(data={'pid' : data['pid']})
         if acc_serializer.is_valid():
             acc_serializer.save()
             updateacc(data)
 
+# Called whenever an entry is made and updates the Accumulator table types
 def updatetype(data):
     try:
-        acc_entry = AccEntry.objects.get(pk=data['pid'])
+        acc_entry = AccEntry.objects.get(pk=data['pid']) 
         acc_entry_values = AccEntry.objects.filter(pid__exact=data['pid']).values()[0]
-        updates = acc_entry_values.copy()
+        
+        # Iterate through all the field types and finds which field has the majority
+        # It then compares if it is the same as the current type and ensures that it only changes
+        # when one group is larger than the other
         for type in ENTRY_TYPE:
             values = [acc_entry_values[type+"0"], acc_entry_values[type+"1"]]
             max = argmax(values)
             if values[max] > values[acc_entry_values[type+"_type"]]:
-                updates[type+"_type"] = max
+                acc_entry_values[type+"_type"] = max
 
-        serializer = AccEntrySerializer(acc_entry, data=updates)
+        # Updates entry with new value and saves it to the table
+        serializer = AccEntrySerializer(acc_entry, data=acc_entry_values)
         if serializer.is_valid():
             serializer.save()
         
