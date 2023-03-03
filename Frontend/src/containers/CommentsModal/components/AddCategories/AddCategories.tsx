@@ -23,17 +23,17 @@ const GreenRedSwitch = styled(Switch)({
 });
 
 export default function AddCategories({ cat }) {
-  const [checked, setChecked] = useState(true);
+  const [disabled, setDisabled] = useState(true);
   return (
     <FormGroup sx={{ ml: 2 }}>
       <Stack direction="row" spacing={1} alignItems="center">
         <FormControlLabel
           sx={{ mr: 0 }}
-          control={<Checkbox onClick={() => setChecked((c) => !c)} size="small" />}
+          control={<Checkbox onClick={() => setDisabled((c) => !c)} size="small" />}
           label=""
         />
         <Typography>{cat.f}</Typography>
-        <GreenRedSwitch disabled={checked} defaultChecked size="small" />
+        <GreenRedSwitch disabled={disabled} defaultChecked size="small" />
         <Typography>{cat.t}</Typography>
       </Stack>
     </FormGroup>

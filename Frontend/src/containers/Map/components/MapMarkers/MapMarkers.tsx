@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useGoogleMap } from '@ubilabs/google-maps-react-hooks';
 import { useStoreDispatch, useStoreSelector } from '../../../../store/hooks';
-// import { selectCategory, selectMarkers } from '../../store/markersSlice';
-import { openModal, setPlaceId } from '../../../../store/modalSlice';
+import { openLocationModal } from '../../../../store/modalSlice';
 import accessCategories from '../../../../types/AccessCategories';
-// import Marker from '../../types/marker';
 import { useGetAllMarkersQuery } from '../../../../store/commentsSlice';
 import { selectCategory } from '../../../../store/markersSlice';
 
@@ -37,12 +35,7 @@ function MapMarkers() {
       const marker = new window.google.maps.Marker(markerOptions);
 
       marker.addListener('click', () => {
-        // eslint-disable-next-line no-console
-        console.log(`Name: ${name}`);
-        // eslint-disable-next-line no-console
-        console.log(`Address: ${address}`);
-        dispatch(setPlaceId(pid));
-        dispatch(openModal({
+        dispatch(openLocationModal({
           placeId: pid, name, address, lat, lng,
         }));
       });

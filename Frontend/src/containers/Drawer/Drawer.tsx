@@ -16,6 +16,7 @@ import accessCategories from '../../types/AccessCategories';
 import { Category } from '../../types/category';
 import Map from '../Map/Map';
 import CommentsModal from '../CommentsModal/CommentsModal';
+import CommentForm from '../CommentsModal/components/CommentForm/CommentForm';
 
 const drawerWidth = 240;
 
@@ -132,6 +133,7 @@ function ResponsiveDrawer(props) {
         }}
       >
         <CommentsModal />
+        <CommentForm />
         <Map />
       </Box>
     </Box>

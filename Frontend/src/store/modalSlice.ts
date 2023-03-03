@@ -1,9 +1,10 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from './store';
 
 // Define a type for the slice state
 interface ModalState {
-  isOpen: boolean,
+  isLocationModalOpen: boolean,
+  isFormModalOpen: boolean,
   location: {
     placeId: string,
     name: string,
@@ -15,7 +16,8 @@ interface ModalState {
 
 // Define the initial state using that type
 const initialState: ModalState = {
-  isOpen: false,
+  isLocationModalOpen: false,
+  isFormModalOpen: false,
   location: {
     placeId: '',
     name: '',
@@ -30,23 +32,36 @@ export const modalSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    closeModal: (state) => {
-      state.isOpen = false;
+    closeLocationModal: (state) => {
+      state.isLocationModalOpen = false;
     },
-    openModal: (state, action) => {
-      state.isOpen = true;
+    openLocationModal: (state, action) => {
+      state.isLocationModalOpen = true;
       state.location = action.payload;
     },
-    setPlaceId: (state, action: PayloadAction<string>) => {
-      state.location.placeId = action.payload;
+    closeFormModal: (state) => {
+      state.isFormModalOpen = false;
+    },
+    openFormModal: (state) => {
+      state.isFormModalOpen = true;
+    },
+    setLocation: (state, action) => {
+      state.location = action.payload;
     },
   },
 });
 
-export const { closeModal, openModal, setPlaceId } = modalSlice.actions;
+export const {
+  closeLocationModal,
+  openLocationModal,
+  closeFormModal,
+  openFormModal,
+  setLocation,
+} = modalSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectIsModalOpen = (state: RootState) => state.modal.isOpen;
+export const selectIsLocationModalOpen = (state: RootState) => state.modal.isLocationModalOpen;
+export const selectIsFormModalOpen = (state: RootState) => state.modal.isFormModalOpen;
 export const selectLocation = (state: RootState) => state.modal.location;
 
 export default modalSlice.reducer;

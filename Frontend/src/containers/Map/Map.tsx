@@ -2,9 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { GoogleMapsProvider } from '@ubilabs/google-maps-react-hooks';
 import MapMarkers from './components/MapMarkers/MapMarkers';
 import { useStoreDispatch } from '../../store/hooks';
-import Marker from '../../types/marker';
-import { addMarker } from '../../store/markersSlice';
-import { Category } from '../../types/category';
+import { openFormModal, setLocation } from '../../store/modalSlice';
 
 function Map() {
   const [mapContainer, setMapContainer] = useState(null);
@@ -41,22 +39,15 @@ function Map() {
         placesService.getDetails({ placeId: e.placeId }, (place, status) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
             const { formatted_address: formattedAddress, name, geometry } = place;
-            const newMarker: Marker = {
+            const location = {
               placeId: e.placeId,
-              latLng: {
-                lat: geometry.location.lat(),
-                lng: geometry.location.lng(),
-              },
-              address: formattedAddress,
               name,
-              [Category.A]: true,
-              [Category.B]: true,
-              [Category.C]: true,
-              [Category.D]: true,
-              [Category.E]: true,
-
+              address: formattedAddress,
+              lat: geometry.location.lat(),
+              lng: geometry.location.lng(),
             };
-            dispatch(addMarker(newMarker));
+            dispatch(setLocation(location));
+            dispatch(openFormModal());
           }
         });
       }
