@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -6,15 +6,35 @@ import Modal from '@mui/material/Modal';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
-import accessCategories from '../../../../types/AccessCategories';
-import AddCategories from '../AddCategories/AddCategories';
-import { useAddNewCommentMutation, useGetAllMarkersQuery, useGetCommentsQuery } from '../../../../store/commentsSlice';
-import { closeFormModal, selectIsFormModalOpen, selectLocation } from '../../../../store/modalSlice';
-import { useStoreDispatch, useStoreSelector } from '../../../../store/hooks';
+import accessCategories from '../../types/AccessCategories';
+import AddCategories from './components/AddCategories/AddCategories';
+import { useAddNewCommentMutation, useGetAllMarkersQuery, useGetCommentsQuery } from '../../store/commentsSlice';
+import { closeFormModal, selectIsFormModalOpen, selectLocation } from '../../store/modalSlice';
+import { useStoreDispatch, useStoreSelector } from '../../store/hooks';
 
 export default function CommentForm() {
   const [newComment, setNewComment] = useState('');
   const [newTitle, setNewTitle] = useState('');
+  const [newOpen, setNewOpen] = useState(2);
+  const [newFriendly, setNewFriendly] = useState(2);
+  const [newQuiet, setNewQuiet] = useState(2);
+  const [newGroups, setNewGroups] = useState(2);
+  const [newSpend, setNewSpend] = useState(2);
+  const handlers = {
+    open: setNewOpen,
+    friendly: setNewFriendly,
+    quiet: setNewQuiet,
+    groups: setNewGroups,
+    spend: setNewSpend,
+  };
+  const categoryState = {
+    open: newOpen,
+    friendly: newFriendly,
+    quiet: newQuiet,
+    groups: newGroups,
+    spend: newSpend,
+  };
+
   const [addNewComment] = useAddNewCommentMutation();
   const {
     placeId, name, address, lat, lng,
@@ -24,6 +44,17 @@ export default function CommentForm() {
 
   const dispatch = useStoreDispatch();
   const isOpen = useStoreSelector((state) => selectIsFormModalOpen(state));
+
+  useEffect(() => {
+    setNewComment('');
+    setNewTitle('');
+    setNewOpen(2);
+    setNewFriendly(2);
+    setNewQuiet(2);
+    setNewGroups(2);
+    setNewSpend(2);
+  }, [placeId]);
+
   const handleClose = () => {
     dispatch(closeFormModal());
   };
@@ -37,10 +68,20 @@ export default function CommentForm() {
       address,
       lat,
       lng,
+      open: newOpen,
+      friendly: newFriendly,
+      quiet: newQuiet,
+      groups: newGroups,
+      spend: newSpend,
     };
     await addNewComment(entry);
     setNewComment('');
     setNewTitle('');
+    setNewOpen(2);
+    setNewFriendly(2);
+    setNewQuiet(2);
+    setNewGroups(2);
+    setNewSpend(2);
     refetch();
     refetchMarkers();
     handleClose();
@@ -94,7 +135,7 @@ export default function CommentForm() {
         </Typography>
         <FormGroup sx={{ ml: 2 }}>
           {Object.entries(accessCategories).map(([, cat]) => (
-            <AddCategories cat={cat} />
+            <AddCategories cat={cat} state={categoryState[cat.name]} handler={handlers[cat.name]} />
           ))}
         </FormGroup>
         <Divider sx={{ mb: 2, m: 2 }} />

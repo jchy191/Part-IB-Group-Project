@@ -16,7 +16,7 @@ import accessCategories from '../../types/AccessCategories';
 import { Category } from '../../types/category';
 import Map from '../Map/Map';
 import CommentsModal from '../CommentsModal/CommentsModal';
-import CommentForm from '../CommentsModal/components/CommentForm/CommentForm';
+import CommentForm from '../FormModal/CommentForm';
 
 const drawerWidth = 240;
 
@@ -41,7 +41,7 @@ function ResponsiveDrawer(props) {
         <SquareRoundedIcon fontSize="small" sx={{ mt: 2.5, color: '#d2222d' }} />
       </Box>
       <RadioGroup
-        defaultValue={accessCategories[Category.A].t}
+        defaultValue={accessCategories[Category.Open].t}
         name="filters-group"
         sx={{ ml: 2 }}
       >
