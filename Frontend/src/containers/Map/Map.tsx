@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { GoogleMapsProvider } from '@ubilabs/google-maps-react-hooks';
-import MapMarkers from '../MapMarkers/MapMarkers';
+import MapMarkers from './components/MapMarkers/MapMarkers';
 import { useStoreDispatch } from '../../store/hooks';
 import Marker from '../../types/marker';
 import { addMarker } from '../../store/markersSlice';

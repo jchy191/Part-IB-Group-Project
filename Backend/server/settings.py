@@ -66,6 +66,7 @@ else:
     ALLOWED_HOSTS = ["*"]
 # [END cloudrun_django_csrf]
 
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -144,11 +145,12 @@ else:
 
 # Cross-Origin Resource Sharing (CORS)
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000"
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:3000"
 ]
-# IP = env("IP", default=None)
-# if IP:
-#     CORS_ALLOWED_ORIGINS += [IP]
+IP = env("IP", default=None)
+if IP:
+    CORS_ALLOWED_ORIGINS += [IP]
 
 
 # Password validation
@@ -196,7 +198,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'rest_framework_json_api.exceptions.exception_handler',
     'DEFAULT_PARSER_CLASSES': (
-        'rest_framework_json_api.parsers.JSONParser',
+        'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser'
     ),

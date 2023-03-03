@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+// import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { RootState } from './store';
 import Marker from '../types/marker';
 import { Category } from '../types/category';
@@ -36,7 +37,7 @@ const initialState: MarkersState = {
       [Category.E]: false,
     },
   ],
-  category: Category.E,
+  category: Category.B,
 };
 
 export const markerSlice = createSlice({
@@ -54,6 +55,21 @@ export const markerSlice = createSlice({
     },
   },
 });
+
+// Define a service using a base URL and expected endpoints
+// export const markersApi = createApi({
+//   reducerPath: 'markers',
+//   baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api' }),
+//   tagTypes: ['Comments'],
+//   endpoints: (builder) => ({
+//     getMarkers: builder.query<Comment[], string>({
+//       query: () => 'all',
+//       providesTags: ['Comments'],
+//     }),
+//   }),
+// });
+
+// export const { useGetMarkersQuery } = markersApi;
 
 export const { addMarker, changeCategory } = markerSlice.actions;
 

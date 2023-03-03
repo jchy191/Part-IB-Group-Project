@@ -12,7 +12,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
-import accessCategories from '../AccessCategories/AccessCategories';
+import accessCategories from '../../types/AccessCategories';
+import { Category } from '../../types/category';
 import Map from '../Map/Map';
 import CommentsModal from '../CommentsModal/CommentsModal';
 
@@ -39,7 +40,7 @@ function ResponsiveDrawer(props) {
         <SquareRoundedIcon fontSize="small" sx={{ mt: 2.5, color: '#d2222d' }} />
       </Box>
       <RadioGroup
-        defaultValue={accessCategories.pub.t}
+        defaultValue={accessCategories[Category.A].t}
         name="filters-group"
         sx={{ ml: 2 }}
       >

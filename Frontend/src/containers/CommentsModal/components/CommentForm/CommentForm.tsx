@@ -6,52 +6,38 @@ import Modal from '@mui/material/Modal';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
-import accessCategories from '../AccessCategories/AccessCategories';
-import AddCategories from '../AddCategories/AddCategories';
+import accessCategories from '../../../../types/AccessCategories';
+import AddCategories from '../../../AddCategories/AddCategories';
+import { useAddNewCommentMutation, useGetCommentsQuery } from '../../../../store/commentsSlice';
+import { selectLocation } from '../../../../store/modalSlice';
+import { useStoreSelector } from '../../../../store/hooks';
 
 export default function CommentForm() {
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      heading: 'Place A',
-
-      categories: [
-        accessCategories.pub.t,
-        accessCategories.free.f,
-        accessCategories.friend.f,
-      ],
-      pin: false,
-      content:
-        'This is the first comment. It is short and does not require a read more button.',
-      expanded: false,
-      reported: true,
-    },
-  ]);
-
   const [newComment, setNewComment] = useState('');
   const [newTitle, setNewTitle] = useState('');
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [addNewComment] = useAddNewCommentMutation();
+  const {
+    placeId, name, address, lat, lng,
+  } = useStoreSelector((state) => selectLocation(state));
+  const { refetch } = useGetCommentsQuery(placeId);
 
-  const handleAddComment = () => {
-    setComments([
-      ...comments,
-      {
-        id: comments.length + 1,
-        heading: 'testheading',
-        categories: [
-          accessCategories.pub.t,
-          accessCategories.free.t,
-          accessCategories.quiet.t,
-        ],
-        pin: false,
-        content: newComment,
-        expanded: false,
-        reported: true,
-      },
-    ]);
+  const handleAddComment = async () => {
+    const entry = {
+      comment: newComment,
+      title: newTitle,
+      pid: placeId,
+      name,
+      address,
+      lat,
+      lng,
+    };
+    await addNewComment(entry);
     setNewComment('');
+    setNewTitle('');
+    refetch();
     handleClose();
   };
 

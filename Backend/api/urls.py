@@ -3,14 +3,15 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from api import views
 
 urlpatterns = [
-    #Debuggin Urls
-    path('entries/', views.EntryList.as_view()),
-    path('entries/<int:pk>/', views.EntryDetail.as_view()),
-    path('acc/', views.AccEntryList.as_view()),
-    
-    #Front-End
-    path('all/<str:pk>/', views.AccEntryDetail.as_view()),
-    path('all/', views.AllList.as_view())
+    # Debuggin Urls
+    path('api/entries/', views.EntryList.as_view()),
+    path('api/entries/<int:pk>/', views.EntryDetail.as_view()),
+    path('api/acc/', views.AccEntryList.as_view()),
+
+    # Front-End
+    path('api/markers/overview/', views.AllMarkers.as_view()),
+    path('api/markers/overview/<str:pk>/', views.MarkerAccEntry.as_view()),
+    path('api/markers/<str:pk>/', views.MarkerEntries.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
