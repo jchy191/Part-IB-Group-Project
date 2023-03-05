@@ -40,11 +40,11 @@ class Entry(models.Model):
 class AccEntry(models.Model):
     pid = models.CharField(max_length=100, blank=True,
                            default='', primary_key=True)
-    open_type = models.BooleanField(default=False)
-    friendly_type = models.BooleanField(default=False)
-    quiet_type = models.BooleanField(default=False)
-    groups_type = models.BooleanField(default=False)
-    spend_type = models.BooleanField(default=False)
+    open_type = models.BooleanField(default=True)
+    friendly_type = models.BooleanField(default=True)
+    quiet_type = models.BooleanField(default=True)
+    groups_type = models.BooleanField(default=True)
+    spend_type = models.BooleanField(default=True)
     lng = models.FloatField(default=0)
     lat = models.FloatField(default=0)
     name = models.TextField(default='')

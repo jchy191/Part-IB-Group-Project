@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-export const enum Category {
+export enum Category {
   Open,
   Friendly,
   Quiet,

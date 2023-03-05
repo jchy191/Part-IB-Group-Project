@@ -23,13 +23,13 @@ function MapMarkers() {
       const {
         lat, lng, address, name, pid,
       } = location;
-      const color = location[category] ? accessCategories[category].iconColour : 'grey';
+      // const color = location[`${accessCategories[category].name}_type`] ? 'green' : 'red';
       const markerOptions:google.maps.MarkerOptions = {
         map,
         position: { lat, lng },
         clickable: true,
         title: name,
-        icon: `http://maps.google.com/mapfiles/ms/icons/${color}.png`,
+        icon: location[`${accessCategories[category].name}_type`] ? `${process.env.PUBLIC_URL}/green.png` : `${process.env.PUBLIC_URL}/red.png`,
       };
 
       const marker = new window.google.maps.Marker(markerOptions);
@@ -44,12 +44,13 @@ function MapMarkers() {
     });
 
     setMarkers(markers);
+    console.log('render');
 
     // Clean up markers
     return () => {
       markers.forEach((marker) => marker.setMap(null));
     };
-  }, [map, locations]);
+  }, [map, locations, category]);
 
   return null;
 }

@@ -13,19 +13,28 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
 import accessCategories from '../../types/AccessCategories';
-import { Category } from '../../types/category';
 import Map from '../Map/Map';
 import CommentsModal from '../CommentsModal/CommentsModal';
 import CommentForm from '../FormModal/CommentForm';
+import { Category } from '../../types/category';
+import { useStoreDispatch } from '../../store/hooks';
+import { changeCategory } from '../../store/markersSlice';
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [toggleValue, setToggleValue] = React.useState(Category.Open);
+  const dispatch = useStoreDispatch();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(changeCategory(Number(event.target.value)));
+    setToggleValue(Number(event.target.value));
   };
 
   const drawer = (
@@ -41,14 +50,17 @@ function ResponsiveDrawer(props) {
         <SquareRoundedIcon fontSize="small" sx={{ mt: 2.5, color: '#d2222d' }} />
       </Box>
       <RadioGroup
-        defaultValue={accessCategories[Category.Open].t}
+        // defaultValue={accessCategories[Category.Open]}
+        value={toggleValue}
+        onChange={handleChange}
         name="filters-group"
         sx={{ ml: 2 }}
       >
-        {Object.entries(accessCategories).map(([, cat]) => (
+        {Object.values(Category).filter((v) => !Number.isNaN(Number(v))).map((cat) => (
           <FormControlLabel
-            control={<Radio value={cat.t} color="secondary" />}
-            label={`${cat.t}  / ${cat.f}`}
+            value={cat}
+            control={<Radio color="secondary" />}
+            label={`${accessCategories[cat].t}  / ${accessCategories[cat].f}`}
             labelPlacement="end"
           />
         ))}

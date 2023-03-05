@@ -8,7 +8,7 @@ export const commentsApi = createApi({
   tagTypes: ['Comments'],
   endpoints: (builder) => ({
     getComments: builder.query({
-      query: (pid) => `markers/${pid}`,
+      query: (pid) => `markers/${pid}/`,
       providesTags: ['Comments'],
       transformResponse: (response: any) => response.data.map((entry) => entry.attributes),
     }),
