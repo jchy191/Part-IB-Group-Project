@@ -75,9 +75,6 @@ function Comment({ entry }) {
         >
           <Box sx={style}>
             <h2 id="child-modal-title">Are you sure you want to report this comment?</h2>
-            <p id="child-modal-description">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            </p>
             <Button onClick={handleReport}>Report Comment</Button>
           </Box>
         </Modal>

@@ -1,11 +1,12 @@
 from json import JSONDecodeError
 from django.http import JsonResponse, Http404
-from .models import Entry, AccEntry, ACC_OPTIONS, ACC_TYPE, ENTRY_TYPE
-from .serializers import AccEntrySerializer, EntrySerializer, AllSerializer
+from .models import Entry, AccEntry, Address, ACC_OPTIONS, ACC_TYPE, ENTRY_TYPE
+from .serializers import AccEntrySerializer, EntrySerializer, AllSerializer, AddressSerializer
 from rest_framework import status
 from rest_framework import mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from numpy import argmax
 
 
@@ -179,4 +180,23 @@ class AccEntryList(APIView):
     def get(self, request, format=None):
         entries = AccEntry.objects.all()
         serializer = AccEntrySerializer(entries, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])   
+def getcomments(request, pid):
+    if request.method == 'GET':
+        entries = Entry.objects.filter(pid=pid)
+        serializer = EntrySerializer(entries, many=True)
+        return Response(serializer.data)
+    
+@api_view(['GET'])   
+def getaddress(request, pid):
+    if request.method == 'GET':
+        try:
+            address = Address.objects.get(pid=pid)
+        except Address.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = AddressSerializer(address, many=False)
         return Response(serializer.data)
