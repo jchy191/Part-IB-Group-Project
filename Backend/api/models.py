@@ -25,7 +25,7 @@ class Entry(models.Model):
     spend = models.IntegerField(choices=Type.choices, default=Type.NONE)
     comment = models.TextField(default='', blank=True)
     title = models.TextField(default='', blank=True)
-    reported = models.BooleanField(default=False)
+    reported = models.IntegerField(default=0)
     pinned = models.BooleanField(default=False)
     name = models.TextField(default='')
     address = models.TextField(default='')

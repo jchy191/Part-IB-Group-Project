@@ -13,7 +13,7 @@ export default function ReportNotification({ open, handleClose }) {
   return (
     <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
       <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-        Comment has been Reported
+        Comment has been reported
       </Alert>
     </Snackbar>
   );

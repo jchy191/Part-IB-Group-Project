@@ -14,18 +14,18 @@ export const commentsApi = createApi({
         .map((entry) => ({ id: entry.id, ...entry.attributes })),
     }),
     addNewComment: builder.mutation({
-      query: (x) => ({
+      query: (data) => ({
         url: 'entries/',
         method: 'POST',
-        body: x,
+        body: data,
       }),
       invalidatesTags: ['Comments'],
     }),
     reportComment: builder.mutation({
-      query: (id) => ({
+      query: ({ id, count }) => ({
         url: `entries/${id}/`,
         method: 'PUT',
-        body: { reported: true },
+        body: { reported: count },
       }),
       invalidatesTags: ['Comments'],
     }),

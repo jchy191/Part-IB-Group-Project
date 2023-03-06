@@ -40,10 +40,11 @@ function Comment({ entry }) {
     setIsConfirmationOpen(false);
   };
 
-  const handleReport = () => {
+  const handleReport = async () => {
     setIsConfirmationOpen(false);
     setIsNotifOpen(true);
-    trigger(entry.id);
+    const count = entry.reported + 1;
+    await trigger({ id: entry.id, count });
   };
 
   const handleCloseNotification = (event?: React.SyntheticEvent | Event, reason?: string) => {
