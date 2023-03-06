@@ -65,3 +65,7 @@ class AccEntry(models.Model):
 
     def __str__(self):
         return self.coords
+
+class Address(models.Model):
+    pid = models.IntegerField(primary_key=True)
+    address = models.CharField(default='')

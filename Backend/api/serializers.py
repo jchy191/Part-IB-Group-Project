@@ -20,3 +20,9 @@ class AllSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AccEntry
         fields = ['pid', 'lng', 'lat', 'name', 'address'] + models.ACC_TYPE
+
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Address
+        fields = ['pid', 'address']
