@@ -5,14 +5,45 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import PlaceIcon from '@mui/icons-material/Place';
 import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
+import {
+  Modal,
+} from '@mui/material';
 import ReportNotification from '../ReportNotifcation/ReportNotification';
+import { useReportCommentMutation } from '../../../../store/commentsSlice';
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
+};
 
 function Comment({ entry }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [isNotifOpen, setIsNotifOpen] = React.useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = React.useState(false);
+
+  const [trigger] = useReportCommentMutation();
+
+  const handleClickOpen = () => {
+    setIsConfirmationOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsConfirmationOpen(false);
+  };
 
   const handleReport = () => {
-    setOpen(true);
+    setIsConfirmationOpen(false);
+    setIsNotifOpen(true);
+    trigger(entry.id);
   };
 
   const handleCloseNotification = (event?: React.SyntheticEvent | Event, reason?: string) => {
@@ -20,7 +51,7 @@ function Comment({ entry }) {
       return;
     }
 
-    setOpen(false);
+    setIsNotifOpen(false);
   };
 
   return (
@@ -32,11 +63,26 @@ function Comment({ entry }) {
           {' '}
           {entry.title}
         </Typography>
-        <Button onClick={handleReport} color="error" size="small" sx={{ mb: 2 }}>
+        <Button onClick={handleClickOpen} color="error" size="small" sx={{ mb: 2 }}>
           <FlagRoundedIcon />
         </Button>
-        <ReportNotification open={open} handleClose={handleCloseNotification} />
+        <ReportNotification open={isNotifOpen} handleClose={handleCloseNotification} />
+        <Modal
+          open={isConfirmationOpen}
+          onClose={handleClose}
+          aria-labelledby="child-modal-title"
+          aria-describedby="child-modal-description"
+        >
+          <Box sx={style}>
+            <h2 id="child-modal-title">Are you sure you want to report this comment?</h2>
+            <p id="child-modal-description">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+            </p>
+            <Button onClick={handleReport}>Report Comment</Button>
+          </Box>
+        </Modal>
       </Box>
+
       <Typography variant="body2" component="p">
         {isExpanded || entry.comment.length < 100
           ? entry.comment

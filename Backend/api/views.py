@@ -3,6 +3,7 @@ from django.http import JsonResponse, Http404
 from .models import Entry, AccEntry, ACC_OPTIONS, ACC_TYPE, ENTRY_TYPE
 from .serializers import AccEntrySerializer, EntrySerializer, AllSerializer
 from rest_framework import status
+from rest_framework import mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from numpy import argmax
@@ -136,7 +137,7 @@ class EntryList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class EntryDetail(APIView):
+class EntryDetail(mixins.UpdateModelMixin, APIView):
     """
     Retrieve, update or delete a snippet instance.
     """
@@ -154,11 +155,14 @@ class EntryDetail(APIView):
 
     def put(self, request, pk, format=None):
         entry = self.get_object(pk)
-        serializer = EntrySerializer(entry, data=request.data)
+        serializer = EntrySerializer(entry, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # def put(self, request, pk, format=None):
+    #     return self.update(request, pk, format)
 
     def delete(self, request, pk, format=None):
         entry = self.get_object(pk)

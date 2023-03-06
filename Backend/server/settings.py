@@ -141,6 +141,10 @@ else:
             'HOST': env("LOCAL_DB_HOST"),
             'PORT': env("LOCAL_DB_PORT"),
         }
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.sqlite3',
+        #     'NAME': env("LOCAL_DB_NAME"),
+        # }
     }
 
 # Cross-Origin Resource Sharing (CORS)

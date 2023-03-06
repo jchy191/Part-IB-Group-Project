@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { GoogleMapsProvider } from '@ubilabs/google-maps-react-hooks';
 import MapMarkers from './components/MapMarkers/MapMarkers';
 import { useStoreDispatch } from '../../store/hooks';
-import { openLocationModal, setLocation } from '../../store/modalSlice';
+import { openLocationModal } from '../../store/modalSlice';
 
 function Map() {
   const [mapContainer, setMapContainer] = useState(null);
@@ -46,7 +46,7 @@ function Map() {
               lat: geometry.location.lat(),
               lng: geometry.location.lng(),
             };
-            dispatch(setLocation(location));
+            // dispatch(setLocation(location));
             dispatch(openLocationModal(location));
           }
         });

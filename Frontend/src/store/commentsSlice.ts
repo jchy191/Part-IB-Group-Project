@@ -10,13 +10,22 @@ export const commentsApi = createApi({
     getComments: builder.query({
       query: (pid) => `markers/${pid}/`,
       providesTags: ['Comments'],
-      transformResponse: (response: any) => response.data.map((entry) => entry.attributes),
+      transformResponse: (response: any) => response.data
+        .map((entry) => ({ id: entry.id, ...entry.attributes })),
     }),
     addNewComment: builder.mutation({
       query: (x) => ({
         url: 'entries/',
         method: 'POST',
         body: x,
+      }),
+      invalidatesTags: ['Comments'],
+    }),
+    reportComment: builder.mutation({
+      query: (id) => ({
+        url: `entries/${id}/`,
+        method: 'PUT',
+        body: { reported: true },
       }),
       invalidatesTags: ['Comments'],
     }),
@@ -31,6 +40,7 @@ export const commentsApi = createApi({
 export const {
   useLazyGetCommentsQuery,
   useAddNewCommentMutation,
+  useReportCommentMutation,
   useGetAllMarkersQuery,
   useGetCommentsQuery,
 } = commentsApi;
