@@ -102,7 +102,8 @@ def updatetype(data):
         for type in ENTRY_TYPE:
             values = [acc_entry_values[type+"0"], acc_entry_values[type+"1"]]
             max = argmax(values)
-            if values[max] > values[acc_entry_values[type+"_type"]]:
+            if values[max] > 0 and (acc_entry_values[type+"_type"] == None or \
+            values[max] > values[acc_entry_values[type+"_type"]]):
                 acc_entry_values[type+"_type"] = max
 
         # Updates entry with new value and saves it to the table
