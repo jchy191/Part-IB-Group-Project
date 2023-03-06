@@ -48,7 +48,7 @@ class MarkerEntries(APIView):
     """
 
     def get(self, request, pk, format=None):
-        entries = Entry.objects.filter(pid=pk)
+        entries = Entry.objects.filter(pid=pk).order_by('-pinned', '-created')
         serializer = EntrySerializer(entries, many=True)
         return Response(serializer.data)
 
@@ -183,20 +183,21 @@ class AccEntryList(APIView):
         return Response(serializer.data)
 
 
-@api_view(['GET'])   
+@api_view(['GET'])
 def getcomments(request, pid):
     if request.method == 'GET':
         entries = Entry.objects.filter(pid=pid)
         serializer = EntrySerializer(entries, many=True)
         return Response(serializer.data)
-    
-@api_view(['GET'])   
+
+
+@api_view(['GET'])
 def getaddress(request, pid):
     if request.method == 'GET':
         try:
             address = Address.objects.get(pid=pid)
         except Address.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        
+
         serializer = AddressSerializer(address, many=False)
         return Response(serializer.data)
