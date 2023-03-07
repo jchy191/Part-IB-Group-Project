@@ -43,11 +43,6 @@ function ResponsiveDrawer(props) {
         <Typography variant="h6" sx={{ p: 2 }}>
           Categories
         </Typography>
-        <SquareRoundedIcon fontSize="small" sx={{ mt: 2.5, color: '#007000' }} />
-        <Typography variant="h6" sx={{ mt: 2 }}>
-          /
-        </Typography>
-        <SquareRoundedIcon fontSize="small" sx={{ mt: 2.5, color: '#d2222d' }} />
       </Box>
       <RadioGroup
         // defaultValue={accessCategories[Category.Open]}
@@ -57,12 +52,23 @@ function ResponsiveDrawer(props) {
         sx={{ ml: 2 }}
       >
         {Object.values(Category).filter((v) => !Number.isNaN(Number(v))).map((cat) => (
-          <FormControlLabel
-            value={cat}
-            control={<Radio color="secondary" />}
-            label={`${accessCategories[cat].t}  / ${accessCategories[cat].f}`}
-            labelPlacement="end"
-          />
+          <Box mt={2}>
+            <FormControlLabel
+              value={cat}
+              control={<Radio color="secondary" />}
+              label={(
+                <Typography variant="body1">
+                  {accessCategories[cat].t}
+                  <SquareRoundedIcon fontSize="small" sx={{ color: accessCategories[cat].true_colour }} />
+                  /
+                  {accessCategories[cat].f}
+                  <SquareRoundedIcon fontSize="small" sx={{ color: accessCategories[cat].false_colour }} />
+                </Typography>
+)}
+              labelPlacement="end"
+            />
+          </Box>
+
         ))}
       </RadioGroup>
       <Typography variant="h6" sx={{ p: 2 }}>

@@ -26,10 +26,10 @@ function MapMarkers() {
       const categoryValue = location[`${accessCategories[category].name}_type`];
       let icon = `${process.env.PUBLIC_URL}/grey.png`;
       if (categoryValue) {
-        icon = `${process.env.PUBLIC_URL}/green.png`;
+        icon = `${process.env.PUBLIC_URL}/${accessCategories[category].name}_true.png`;
       }
       if (categoryValue !== null && !categoryValue) {
-        icon = `${process.env.PUBLIC_URL}/red.png`;
+        icon = `${process.env.PUBLIC_URL}/${accessCategories[category].name}_false.png`;
       }
 
       // const color = location[`${accessCategories[category].name}_type`] ? 'green' : 'red';

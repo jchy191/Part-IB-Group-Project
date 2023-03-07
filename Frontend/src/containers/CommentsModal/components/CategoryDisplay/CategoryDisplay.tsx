@@ -8,10 +8,10 @@ export default function ChosenCategory({ entry }) {
     <>
       {Object.entries(accessCategories).map(([, cat]) => (
         <>
-          {entry[cat.name] && <CheckBoxRoundedIcon sx={{ color: cat.colour }} />}
+          {entry[cat.name] && <CheckBoxRoundedIcon sx={{ color: cat.true_colour }} />}
           {entry[cat.name] !== null
             && !entry[cat.name]
-            && <DisabledByDefaultRoundedIcon sx={{ color: cat.colour }} />}
+            && <DisabledByDefaultRoundedIcon sx={{ color: cat.false_colour }} />}
         </>
 
       ))}

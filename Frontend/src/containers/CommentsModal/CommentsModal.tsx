@@ -66,7 +66,7 @@ function CommentsModal() {
           {isCommentsSuccess && Object.entries(accessCategories).map(([, cat]) => (
             <Grid item xs={12}>
               <Box sx={{ display: 'flex' }}>
-                <SquareRoundedIcon sx={{ color: cat.colour }} />
+                <SquareRoundedIcon sx={{ color: cat.true_colour }} />
                 <Typography>{cat.t}</Typography>
               </Box>
             </Grid>
