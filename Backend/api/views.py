@@ -55,7 +55,7 @@ class MarkerEntries(APIView):
 
 # Called whenever an entry is made and updates the Accumulator table
 def updateacc(data):
-    print(data)
+    #print(data)
     try:
         # Reference to the object in the table
         acc_entry = AccEntry.objects.get(pk=data['pid'])
@@ -101,15 +101,17 @@ def updatetype(data):
         # when one group is larger than the other
         for type in ENTRY_TYPE:
             values = [acc_entry_values[type+"0"], acc_entry_values[type+"1"]]
-            max = argmax(values)
-            if values[max] > 0 and (acc_entry_values[type+"_type"] == None or
-                                    values[max] > values[acc_entry_values[type+"_type"]]):
-                acc_entry_values[type+"_type"] = max
+            if values[0] == values[1]:
+                acc_entry_values[type+"_type"] = None
+            else:
+                max = argmax(values)
+                if acc_entry_values[type+"_type"] == None or values[max] > values[acc_entry_values[type+"_type"]]:
+                    acc_entry_values[type+"_type"] = max
 
-        # Updates entry with new value and saves it to the table
-        serializer = AccEntrySerializer(acc_entry, data=acc_entry_values)
-        if serializer.is_valid():
-            serializer.save()
+            # Updates entry with new value and saves it to the table
+            serializer = AccEntrySerializer(acc_entry, data=acc_entry_values)
+            if serializer.is_valid():
+                serializer.save()
 
     except AccEntry.DoesNotExist:
         acc_serializer = AccEntrySerializer(

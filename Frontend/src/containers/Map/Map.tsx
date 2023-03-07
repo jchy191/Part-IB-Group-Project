@@ -45,7 +45,6 @@ function Map() {
               lat: geometry.location.lat(),
               lng: geometry.location.lng(),
             };
-            // dispatch(setLocation(location));
             dispatch(openLocationModal(location));
           }
         });

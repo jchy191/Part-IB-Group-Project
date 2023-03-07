@@ -16,8 +16,14 @@ import accessCategories from '../../types/AccessCategories';
 function CommentsModal() {
   const isOpen = useStoreSelector((state) => selectIsLocationModalOpen(state));
   const { placeId, name, address } = useStoreSelector((state) => selectLocation(state));
-  const { isSuccess: isCommentsSuccess, data: comments } = useGetCommentsQuery(placeId);
-  const { data: overview, isSuccess: isOverviewSuccess } = useGetOverviewQuery(placeId);
+  const {
+    isSuccess: isCommentsSuccess,
+    data: comments,
+  } = useGetCommentsQuery(placeId);
+  const {
+    data: overview,
+    isSuccess: isOverviewSuccess,
+  } = useGetOverviewQuery(placeId);
 
   const dispatch = useStoreDispatch();
 
