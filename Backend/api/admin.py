@@ -9,4 +9,4 @@ class EntryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'created', 'pid', 'open', 'friendly', 'quiet', 'groups', 'spend', 'comment', 'reported', 'pinned', 'address')
     search_fields = ['id', 'created', 'pid', 'lng',
                      'lat', 'open', 'comment', 'reported', 'pinned']
-    list_filter = ('reported', 'pinned', 'pid')
+    list_filter = ('reported', 'pinned', 'name')
