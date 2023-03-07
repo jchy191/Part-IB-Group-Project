@@ -57,7 +57,7 @@ class MarkerEntries(APIView):
 
 
 # Called whenever an entry is made and updates the Accumulator table
-def updateacc(data):
+def updateacc(data, change):
     # print(data)
     try:
         # Reference to the object in the table
@@ -72,9 +72,9 @@ def updateacc(data):
         for type in ENTRY_TYPE:
             if data[type] != None:
                 if data[type]:
-                    acc_entry_values[type+"1"] = acc_entry_values[type+"1"] + 1
+                    acc_entry_values[type+"1"] = acc_entry_values[type+"1"] + change
                 else:
-                    acc_entry_values[type+"0"] = acc_entry_values[type+"0"] + 1
+                    acc_entry_values[type+"0"] = acc_entry_values[type+"0"] + change
 
         # Updates the entry using the object reference with the new values after all the incrementations
         # and saves the entries to the table
@@ -88,7 +88,7 @@ def updateacc(data):
             data={'pid': data['pid'], 'lat': data['lat'], 'lng': data['lng'], 'name': data['name'], 'address': data['address']})
         if acc_serializer.is_valid():
             acc_serializer.save()
-            updateacc(data)
+            updateacc(data, change)
 
 # Called whenever an entry is made and updates the Accumulator table types
 
@@ -138,7 +138,7 @@ class EntryList(APIView):
         serializer = EntrySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            updateacc(serializer.data)
+            updateacc(serializer.data, 1)
             updatetype(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -173,6 +173,10 @@ class EntryDetail(mixins.UpdateModelMixin, APIView):
 
     def delete(self, request, pk, format=None):
         entry = self.get_object(pk)
+        entry_values = Entry.objects.filter(
+            pk=pk).values()[0]
+        updateacc(entry_values, -1)
+        updatetype(entry_values)
         entry.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
