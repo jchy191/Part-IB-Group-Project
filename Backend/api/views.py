@@ -67,11 +67,11 @@ def updateacc(data):
 
         # Iterate through all the field types and increments the corresponding field
         for type in ENTRY_TYPE:
-            if data[type] == Entry.Type.FALSE:
-                acc_entry_values[type+"0"] = acc_entry_values[type+"0"] + 1
-
-            if data[type] == Entry.Type.TRUE:
-                acc_entry_values[type+"1"] = acc_entry_values[type+"1"] + 1
+            if data[type] != None:
+                if data[type]:
+                    acc_entry_values[type+"1"] = acc_entry_values[type+"1"] + 1
+                else:
+                    acc_entry_values[type+"0"] = acc_entry_values[type+"0"] + 1
 
         # Updates the entry using the object reference with the new values after all the incrementations
         # and saves the entries to the table
