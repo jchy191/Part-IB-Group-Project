@@ -55,7 +55,7 @@ class MarkerEntries(APIView):
 
 # Called whenever an entry is made and updates the Accumulator table
 def updateacc(data):
-    #print(data)
+    # print(data)
     try:
         # Reference to the object in the table
         acc_entry = AccEntry.objects.get(pk=data['pid'])
@@ -183,6 +183,32 @@ class AccEntryList(APIView):
     def get(self, request, format=None):
         entries = AccEntry.objects.all()
         serializer = AccEntrySerializer(entries, many=True)
+        return Response(serializer.data)
+
+
+class Location(APIView):
+    """
+    List all snippets, or create a new snippet.
+    """
+
+    def put(self, request, format=None):
+        serializer = AddressSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_201_CREATED)
+
+
+class LocationEntry(APIView):
+    def get_object(self, pk):
+        try:
+            return Address.objects.get(pid=pk)
+        except Address.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        entry = self.get_object(pk)
+        serializer = AddressSerializer(entry)
         return Response(serializer.data)
 
 

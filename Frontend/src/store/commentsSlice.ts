@@ -18,6 +18,17 @@ export const commentsApi = createApi({
       providesTags: ['Comments'],
       transformResponse: (response: any) => response.data.attributes,
     }),
+    getLocation: builder.query({
+      query: (pid) => `locations/${pid}/`,
+      transformResponse: (response: any) => response.data,
+    }),
+    addLocation: builder.mutation({
+      query: ({ placeId, ...data }) => ({
+        url: 'locations/',
+        method: 'PUT',
+        body: { pid: placeId, ...data },
+      }),
+    }),
     addNewComment: builder.mutation({
       query: (data) => ({
         url: 'entries/',
@@ -46,6 +57,8 @@ export const {
   useLazyGetCommentsQuery,
   useAddNewCommentMutation,
   useReportCommentMutation,
+  useLazyGetLocationQuery,
+  useAddLocationMutation,
   useGetAllMarkersQuery,
   useGetCommentsQuery,
   useGetOverviewQuery,

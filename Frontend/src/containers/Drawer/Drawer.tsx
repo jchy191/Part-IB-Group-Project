@@ -3,7 +3,6 @@ import * as React from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
@@ -13,6 +12,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded';
 import DisabledByDefaultRoundedIcon from '@mui/icons-material/DisabledByDefaultRounded';
+import AppBar from '@mui/material/AppBar';
 import accessCategories from '../../types/AccessCategories';
 import Map from '../Map/Map';
 import CommentsModal from '../CommentsModal/CommentsModal';
@@ -20,6 +20,7 @@ import FormModal from '../FormModal/FormModal';
 import { Category } from '../../types/category';
 import { useStoreDispatch } from '../../store/hooks';
 import { changeCategory } from '../../store/markersSlice';
+import Legend from '../Map/components/Legend/Legend';
 
 const drawerWidth = 240;
 
@@ -41,12 +42,25 @@ function ResponsiveDrawer(props) {
   const drawer = (
     <div>
       <Box display="flex">
+        <Typography variant="h5" sx={{ p: 2 }}>
+          Cambridge Land Justice
+        </Typography>
+      </Box>
+      {/* <Box
+        component="img"
+        sx={{
+          height: 50,
+          width: 50,
+        }}
+        src={`${process.env.PUBLIC_URL}/CLJLogo.png`}
+      /> */}
+      <Box display="flex">
         <Typography variant="h6" sx={{ p: 2 }}>
           Categories
         </Typography>
       </Box>
       <RadioGroup
-        // defaultValue={accessCategories[Category.Open]}
+        defaultValue={accessCategories[Category.Open]}
         value={toggleValue}
         onChange={handleChange}
         name="filters-group"
@@ -72,9 +86,6 @@ function ResponsiveDrawer(props) {
 
         ))}
       </RadioGroup>
-      <Typography variant="h6" sx={{ p: 2 }}>
-        About
-      </Typography>
     </div>
   );
 
@@ -86,28 +97,32 @@ function ResponsiveDrawer(props) {
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          width: { md: `calc(100% - ${drawerWidth}px)` },
+          ml: { md: `${drawerWidth}px` },
+          background: 'transparent',
+          boxShadow: 'none',
         }}
       >
         <Toolbar>
           <IconButton
-            color="inherit"
             aria-label="open drawer"
+            color="inherit"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{
+              mr: 2,
+              display: { md: 'none' },
+              backgroundColor: 'white',
+              color: 'black',
+            }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Cambridge Land Justice
-          </Typography>
         </Toolbar>
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
         aria-label="mailbox folders"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -120,7 +135,7 @@ function ResponsiveDrawer(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
+            display: { xs: 'block', md: 'none' },
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
@@ -132,7 +147,7 @@ function ResponsiveDrawer(props) {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
+            display: { xs: 'none', md: 'block' },
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
@@ -147,11 +162,12 @@ function ResponsiveDrawer(props) {
         component="main"
         sx={{
           flexGrow: 1,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { md: `calc(100% - ${drawerWidth}px)` },
         }}
       >
         <CommentsModal />
         <FormModal />
+        <Legend />
         <Map />
       </Box>
     </Box>

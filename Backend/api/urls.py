@@ -12,6 +12,8 @@ urlpatterns = [
     path('api/markers/overview/', views.AllMarkers.as_view()),
     path('api/markers/overview/<str:pk>/', views.MarkerAccEntry.as_view()),
     path('api/markers/<str:pk>/', views.MarkerEntries.as_view()),
+    path('api/locations/', views.Location.as_view()),
+    path('api/locations/<str:pk>/', views.LocationEntry.as_view()),
     path('api/comments/<int:pid>/', views.getcomments),
 ]
 

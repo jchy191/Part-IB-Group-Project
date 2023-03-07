@@ -25,4 +25,4 @@ class AllSerializer(serializers.ModelSerializer):
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Address
-        fields = ['pid', 'address']
+        fields = ['pid', 'address', 'lat', 'lng', 'name']

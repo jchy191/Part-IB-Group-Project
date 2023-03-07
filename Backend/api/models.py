@@ -64,5 +64,9 @@ class AccEntry(models.Model):
 
 
 class Address(models.Model):
-    pid = models.IntegerField(primary_key=True)
+    pid = models.CharField(max_length=100, blank=True,
+                           default='', primary_key=True)
+    lng = models.FloatField(default=0)
+    lat = models.FloatField(default=0)
+    name = models.TextField(default='')
     address = models.CharField(default='', max_length=200)
