@@ -3,7 +3,6 @@ import { GoogleMapsProvider } from '@ubilabs/google-maps-react-hooks';
 import MapMarkers from './components/MapMarkers/MapMarkers';
 import { useStoreDispatch } from '../../store/hooks';
 import { openLocationModal } from '../../store/modalSlice';
-import { useAddLocationMutation, useLazyGetLocationQuery } from '../../store/commentsSlice';
 
 function Map() {
   const [mapContainer, setMapContainer] = useState(null);
@@ -11,9 +10,6 @@ function Map() {
     if (node) setMapContainer(node);
   }, []);
   const dispatch = useStoreDispatch();
-  const [trigger, { isSuccess, isFetching }] = useLazyGetLocationQuery();
-  let [, { data: location }] = useLazyGetLocationQuery();
-  const [addLocation] = useAddLocationMutation();
 
   const mapOptions = {
     center: {
@@ -39,28 +35,20 @@ function Map() {
     map.addListener('click', async (e) => {
       e.stop();
       if (e.placeId) {
-        await trigger(e.placeId);
-
-        if (!isSuccess && !isFetching) {
-          const placesService = new google.maps.places.PlacesService(map);
-          placesService.getDetails({ placeId: e.placeId }, (place, status) => {
-            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-              const { formatted_address: formattedAddress, name, geometry } = place;
-              location = {
-                placeId: e.placeId,
-                name,
-                address: formattedAddress,
-                lat: geometry.location.lat(),
-                lng: geometry.location.lng(),
-              };
-              addLocation(location);
-              dispatch(openLocationModal(location));
-            }
-          });
-        }
-        if (isSuccess) {
-          dispatch(openLocationModal(location));
-        }
+        const placesService = new google.maps.places.PlacesService(map);
+        placesService.getDetails({ placeId: e.placeId }, (place, status) => {
+          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+            const { formatted_address: formattedAddress, name, geometry } = place;
+            const location = {
+              placeId: e.placeId,
+              name,
+              address: formattedAddress,
+              lat: geometry.location.lat(),
+              lng: geometry.location.lng(),
+            };
+            dispatch(openLocationModal(location));
+          }
+        });
         e.stop(); // Hide default infowindow
       }
     });

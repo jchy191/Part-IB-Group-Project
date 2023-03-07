@@ -13,7 +13,7 @@ import Comment from './components/Comment/Comment';
 import { useGetCommentsQuery, useGetOverviewQuery } from '../../store/commentsSlice';
 import accessCategories from '../../types/AccessCategories';
 
-function CommentsModal() {
+function EntriesModal() {
   const isOpen = useStoreSelector((state) => selectIsLocationModalOpen(state));
   const { placeId, name, address } = useStoreSelector((state) => selectLocation(state));
   const {
@@ -56,10 +56,31 @@ function CommentsModal() {
           transform: 'translate(-50%, -50%)',
         }}
       >
-        <Typography variant="h4" component="h4">
+        <Typography variant="h4" component="h4" mb={3}>
           <PlaceIcon fontSize="large" sx={{ mt: 1 }} />
           {`${name} ${address}`}
         </Typography>
+        <Grid container sx={{ justifyContent: 'space-between' }}>
+          {isOverviewSuccess && Object.entries(accessCategories).map(([, cat]) => (
+            <>
+              <Grid item xs={12} sm={6}>
+                <Box sx={{ display: 'flex' }}>
+                  <CheckBoxRoundedIcon sx={{ color: cat.true_colour }} />
+                  {overview[`${cat.name}_type`] ? <Typography fontWeight="bold">{cat.t}</Typography> : <Typography>{cat.t}</Typography>}
+                  <Typography fontWeight="bold">{` (${overview[`${cat.name}1`]})`}</Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Box sx={{ display: 'flex' }}>
+                  <DisabledByDefaultRoundedIcon sx={{ color: cat.false_colour }} />
+                  {(overview[`${cat.name}_type`] !== null && !overview[`${cat.name}_type`]) ? <Typography fontWeight="bold">{cat.f}</Typography> : <Typography>{cat.f}</Typography>}
+                  <Typography fontWeight="bold">{` (${overview[`${cat.name}0`]})`}</Typography>
+                </Box>
+              </Grid>
+
+            </>
+          ))}
+        </Grid>
         <Button
           onClick={handleOpenFormModal}
           variant="contained"
@@ -68,27 +89,6 @@ function CommentsModal() {
         >
           Share your view
         </Button>
-        <Grid container sx={{ justifyContent: 'space-between' }}>
-          {isOverviewSuccess && Object.entries(accessCategories).map(([, cat]) => (
-            <>
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex' }}>
-                  <CheckBoxRoundedIcon sx={{ color: cat.true_colour }} />
-                  <Typography>{cat.t}</Typography>
-                  <Typography fontWeight="bold">{` (${overview[`${cat.name}1`]})`}</Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex' }}>
-                  <DisabledByDefaultRoundedIcon sx={{ color: cat.false_colour }} />
-                  <Typography>{cat.f}</Typography>
-                  <Typography fontWeight="bold">{` (${overview[`${cat.name}0`]})`}</Typography>
-                </Box>
-              </Grid>
-
-            </>
-          ))}
-        </Grid>
         {isCommentsSuccess
           && comments.filter((entry) => entry.title && entry.comment).map((entry) => (
             <Comment entry={entry} key={entry.id} />
@@ -99,4 +99,4 @@ function CommentsModal() {
   );
 }
 
-export default CommentsModal;
+export default EntriesModal;

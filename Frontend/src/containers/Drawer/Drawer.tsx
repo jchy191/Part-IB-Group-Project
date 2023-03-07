@@ -15,7 +15,7 @@ import DisabledByDefaultRoundedIcon from '@mui/icons-material/DisabledByDefaultR
 import AppBar from '@mui/material/AppBar';
 import accessCategories from '../../types/AccessCategories';
 import Map from '../Map/Map';
-import CommentsModal from '../CommentsModal/CommentsModal';
+import EntriesModal from '../EntriesModal/EntriesModal';
 import FormModal from '../FormModal/FormModal';
 import { Category } from '../../types/category';
 import { useStoreDispatch } from '../../store/hooks';
@@ -165,7 +165,7 @@ function ResponsiveDrawer(props) {
           width: { md: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        <CommentsModal />
+        <EntriesModal />
         <FormModal />
         <Legend />
         <Map />
