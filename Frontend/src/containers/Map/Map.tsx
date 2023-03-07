@@ -35,7 +35,6 @@ function Map() {
     map.addListener('click', (e) => {
       if (e.placeId) {
         const placesService = new google.maps.places.PlacesService(map);
-
         placesService.getDetails({ placeId: e.placeId }, (place, status) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
             const { formatted_address: formattedAddress, name, geometry } = place;

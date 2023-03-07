@@ -13,6 +13,11 @@ export const commentsApi = createApi({
       transformResponse: (response: any) => response.data
         .map((entry) => ({ id: entry.id, ...entry.attributes })),
     }),
+    getOverview: builder.query({
+      query: (pid) => `markers/overview/${pid}/`,
+      providesTags: ['Comments'],
+      transformResponse: (response: any) => response.data,
+    }),
     addNewComment: builder.mutation({
       query: (data) => ({
         url: 'entries/',
@@ -43,4 +48,5 @@ export const {
   useReportCommentMutation,
   useGetAllMarkersQuery,
   useGetCommentsQuery,
+  useGetOverviewQuery,
 } = commentsApi;

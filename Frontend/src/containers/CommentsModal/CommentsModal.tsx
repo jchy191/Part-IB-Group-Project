@@ -1,19 +1,24 @@
 import {
-  Modal, Box, Typography, Button,
+  Modal, Box, Typography, Button, Grid,
 } from '@mui/material';
 import PlaceIcon from '@mui/icons-material/Place';
+import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
 import React from 'react';
 import { useStoreDispatch, useStoreSelector } from '../../store/hooks';
 import {
   closeLocationModal, openFormModal, selectIsLocationModalOpen, selectLocation,
 } from '../../store/modalSlice';
 import Comment from './components/Comment/Comment';
-import { useGetCommentsQuery } from '../../store/commentsSlice';
+import { useGetCommentsQuery, useGetOverviewQuery } from '../../store/commentsSlice';
+import accessCategories from '../../types/AccessCategories';
 
 function CommentsModal() {
   const isOpen = useStoreSelector((state) => selectIsLocationModalOpen(state));
   const { placeId, name, address } = useStoreSelector((state) => selectLocation(state));
-  const { isSuccess, data: comments } = useGetCommentsQuery(placeId);
+  const { isSuccess: isCommentsSuccess, data: comments } = useGetCommentsQuery(placeId);
+  const { data: overview } = useGetOverviewQuery(placeId);
+  console.log(overview);
+
   const dispatch = useStoreDispatch();
 
   const handleClose = () => {
@@ -57,11 +62,20 @@ function CommentsModal() {
         >
           Share your view
         </Button>
-        {isSuccess ? comments.filter((entry) => entry.title && entry.comment).map((entry) => (
-          <Comment entry={entry} />
-        ),
-        // eslint-disable-next-line react/jsx-no-useless-fragment, function-paren-newline
-        ) : <></> }
+        <Grid container sx={{ justifyContent: 'space-between' }}>
+          {isCommentsSuccess && Object.entries(accessCategories).map(([, cat]) => (
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex' }}>
+                <SquareRoundedIcon sx={{ color: cat.colour }} />
+                <Typography>{cat.t}</Typography>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+        {isCommentsSuccess
+          && comments.filter((entry) => entry.title && entry.comment).map((entry) => (
+            <Comment entry={entry} key={entry.id} />
+          ))}
 
       </Box>
     </Modal>

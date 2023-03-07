@@ -10,19 +10,15 @@ ACC_TYPE = ['open_type', 'friendly_type',
 
 
 class Entry(models.Model):
-    class Type(models.IntegerChoices):
-        TRUE = 1
-        FALSE = 0
-        NONE = 2
     created = models.DateTimeField(auto_now_add=True)
     pid = models.CharField(max_length=100, blank=True, default='')
     lng = models.FloatField(default=0)
     lat = models.FloatField(default=0)
-    open = models.IntegerField(choices=Type.choices, default=Type.NONE)
-    friendly = models.IntegerField(choices=Type.choices, default=Type.NONE)
-    quiet = models.IntegerField(choices=Type.choices, default=Type.NONE)
-    groups = models.IntegerField(choices=Type.choices, default=Type.NONE)
-    spend = models.IntegerField(choices=Type.choices, default=Type.NONE)
+    open = models.BooleanField(default=None, null=True)
+    friendly = models.BooleanField(default=None, null=True)
+    quiet = models.BooleanField(default=None, null=True)
+    groups = models.BooleanField(default=None, null=True)
+    spend = models.BooleanField(default=None, null=True)
     comment = models.TextField(default='', blank=True)
     title = models.TextField(default='', blank=True)
     reported = models.IntegerField(default=0)

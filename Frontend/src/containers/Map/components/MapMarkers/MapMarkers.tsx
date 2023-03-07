@@ -23,13 +23,22 @@ function MapMarkers() {
       const {
         lat, lng, address, name, pid,
       } = location;
+      const categoryValue = location[`${accessCategories[category].name}_type`];
+      let icon = `${process.env.PUBLIC_URL}/grey.png`;
+      if (categoryValue) {
+        icon = `${process.env.PUBLIC_URL}/green.png`;
+      }
+      if (categoryValue !== null && !categoryValue) {
+        icon = `${process.env.PUBLIC_URL}/red.png`;
+      }
+
       // const color = location[`${accessCategories[category].name}_type`] ? 'green' : 'red';
       const markerOptions:google.maps.MarkerOptions = {
         map,
         position: { lat, lng },
         clickable: true,
         title: name,
-        icon: location[`${accessCategories[category].name}_type`] ? `${process.env.PUBLIC_URL}/green.png` : `${process.env.PUBLIC_URL}/red.png`,
+        icon,
       };
 
       const marker = new window.google.maps.Marker(markerOptions);
@@ -44,7 +53,6 @@ function MapMarkers() {
     });
 
     setMarkers(markers);
-    console.log('render');
 
     // Clean up markers
     return () => {

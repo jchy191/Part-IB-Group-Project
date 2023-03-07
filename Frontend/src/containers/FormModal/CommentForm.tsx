@@ -15,11 +15,11 @@ import { useStoreDispatch, useStoreSelector } from '../../store/hooks';
 export default function CommentForm() {
   const [newComment, setNewComment] = useState('');
   const [newTitle, setNewTitle] = useState('');
-  const [newOpen, setNewOpen] = useState(2);
-  const [newFriendly, setNewFriendly] = useState(2);
-  const [newQuiet, setNewQuiet] = useState(2);
-  const [newGroups, setNewGroups] = useState(2);
-  const [newSpend, setNewSpend] = useState(2);
+  const [newOpen, setNewOpen] = useState(null);
+  const [newFriendly, setNewFriendly] = useState(null);
+  const [newQuiet, setNewQuiet] = useState(null);
+  const [newGroups, setNewGroups] = useState(null);
+  const [newSpend, setNewSpend] = useState(null);
   const handlers = {
     open: setNewOpen,
     friendly: setNewFriendly,
@@ -47,12 +47,12 @@ export default function CommentForm() {
 
   useEffect(() => {
     setNewComment('');
-    setNewTitle('');
-    setNewOpen(2);
-    setNewFriendly(2);
-    setNewQuiet(2);
-    setNewGroups(2);
-    setNewSpend(2);
+    setNewTitle('Anonymous');
+    setNewOpen(null);
+    setNewFriendly(null);
+    setNewQuiet(null);
+    setNewGroups(null);
+    setNewSpend(null);
   }, [placeId]);
 
   const handleClose = () => {
@@ -76,12 +76,12 @@ export default function CommentForm() {
     };
     await addNewComment(entry);
     setNewComment('');
-    setNewTitle('');
-    setNewOpen(2);
-    setNewFriendly(2);
-    setNewQuiet(2);
-    setNewGroups(2);
-    setNewSpend(2);
+    setNewTitle('Anonymous');
+    setNewOpen(null);
+    setNewFriendly(null);
+    setNewQuiet(null);
+    setNewGroups(null);
+    setNewSpend(null);
     refetch();
     refetchMarkers();
     handleClose();
@@ -116,16 +116,16 @@ export default function CommentForm() {
         <TextField
           variant="standard"
           fullWidth
-          label="Comment Title"
+          label="Tell us about yourself (e.g., Mother of four)"
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
         />
         <Divider sx={{ mb: 2, m: 2 }} />
         <TextField
           multiline
-          variant="filled"
+          variant="standard"
           fullWidth
-          label="Comment on Access"
+          label="Share your views on this place"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />

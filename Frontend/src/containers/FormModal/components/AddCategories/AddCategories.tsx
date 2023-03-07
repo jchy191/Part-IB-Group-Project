@@ -6,6 +6,8 @@ import Checkbox from '@mui/material/Checkbox';
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const GreenRedSwitch = styled(Switch)({
   '& .MuiSwitch-switchBase.Mui-checked': {
@@ -30,30 +32,23 @@ export default function AddCategories({ cat, handler, state }) {
     if (disabled) {
       setDisabled(false);
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      option ? handler(1) : handler(0);
+      option ? handler(true) : handler(false);
     } else {
       setDisabled(true);
-      handler(2);
+      handler(null);
     }
   };
 
   useEffect(() => {
-    switch (state) {
-      case 2:
-        setDisabled(true);
-        setOption(true);
-        return;
-      case 1:
-        setDisabled(false);
-        setOption(true);
-        return;
-      case 0:
-        setDisabled(false);
-        setOption(false);
-        return;
-      default:
-        setDisabled(true);
-        setOption(true);
+    if (state === null) {
+      setDisabled(true);
+      setOption(true);
+    } else if (state) {
+      setDisabled(false);
+      setOption(true);
+    } else {
+      setDisabled(false);
+      setOption(false);
     }
   }, [state]);
 
@@ -72,12 +67,21 @@ export default function AddCategories({ cat, handler, state }) {
       <Stack direction="row" spacing={1} alignItems="center">
         <FormControlLabel
           sx={{ mr: 0 }}
-          control={<Checkbox checked={!disabled} onClick={handleDisable} size="small" />}
+          control={(
+            <Checkbox
+              checked={!disabled}
+              icon={<AddCircleOutlineIcon />}
+              checkedIcon={<AddCircleIcon />}
+              onClick={handleDisable}
+              size="small"
+            />
+)}
           label=""
+
         />
-        <Typography>{cat.f}</Typography>
+        <Typography color={disabled ? '#888888' : '#000000'}>{cat.f}</Typography>
         <GreenRedSwitch disabled={disabled} checked={option} onChange={handleChange} size="small" />
-        <Typography>{cat.t}</Typography>
+        <Typography color={disabled ? '#888888' : '#000000'}>{cat.t}</Typography>
       </Stack>
     </FormGroup>
   );
