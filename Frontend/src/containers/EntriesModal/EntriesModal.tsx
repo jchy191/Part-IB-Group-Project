@@ -18,11 +18,14 @@ function EntriesModal() {
   const { placeId, name, address } = useStoreSelector((state) => selectLocation(state));
   const {
     isSuccess: isCommentsSuccess,
-    data: comments,
+    currentData: comments,
+    isFetching: isCommentsFetching,
   } = useGetCommentsQuery(placeId);
   const {
-    data: overview,
+    currentData: overview,
     isSuccess: isOverviewSuccess,
+    isFetching: isOverviewFetching,
+
   } = useGetOverviewQuery(placeId);
 
   const dispatch = useStoreDispatch();
@@ -34,6 +37,11 @@ function EntriesModal() {
   const handleOpenFormModal = () => {
     dispatch(openFormModal());
   };
+
+  if (isOverviewFetching || isCommentsFetching) {
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    return <></>;
+  }
 
   return (
     <Modal
@@ -61,7 +69,7 @@ function EntriesModal() {
           {`${name} ${address}`}
         </Typography>
         <Grid container sx={{ justifyContent: 'space-between' }}>
-          {isOverviewSuccess && Object.entries(accessCategories).map(([, cat]) => (
+          {isOverviewSuccess && overview && Object.entries(accessCategories).map(([, cat]) => (
             <>
               <Grid item xs={12} sm={6}>
                 <Box sx={{ display: 'flex' }}>
@@ -90,6 +98,7 @@ function EntriesModal() {
           Share your view
         </Button>
         {isCommentsSuccess
+          && comments
           && comments.filter((entry) => entry.title && entry.comment).map((entry) => (
             <Comment entry={entry} key={entry.id} />
           ))}

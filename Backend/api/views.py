@@ -36,9 +36,12 @@ class MarkerAccEntry(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
-        entry = self.get_object(pk)
-        serializer = AccEntrySerializer(entry)
-        return Response(serializer.data)
+        try:
+            entry = self.get_object(pk)
+            serializer = AccEntrySerializer(entry)
+            return Response(serializer.data)
+        except:
+            return Response(status=status.HTTP_200_OK)
 
 
 class MarkerEntries(APIView):

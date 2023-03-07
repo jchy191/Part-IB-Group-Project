@@ -35,8 +35,7 @@ export const modalSlice = createSlice({
     closeLocationModal: (state) => {
       state.isLocationModalOpen = false;
     },
-    openLocationModal: (state, action) => {
-      state.location = action.payload;
+    openLocationModal: (state) => {
       state.isLocationModalOpen = true;
     },
     closeFormModal: (state) => {

@@ -16,18 +16,8 @@ export const commentsApi = createApi({
     getOverview: builder.query({
       query: (pid) => `markers/overview/${pid}/`,
       providesTags: ['Comments'],
-      transformResponse: (response: any) => response.data.attributes,
-    }),
-    getLocation: builder.query({
-      query: (pid) => `locations/${pid}/`,
-      transformResponse: (response: any) => response.data,
-    }),
-    addLocation: builder.mutation({
-      query: ({ placeId, ...data }) => ({
-        url: 'locations/',
-        method: 'PUT',
-        body: { pid: placeId, ...data },
-      }),
+      transformResponse: (response: any) => (response.data
+        ? response.data.attributes : response.data),
     }),
     addNewComment: builder.mutation({
       query: (data) => ({
@@ -48,7 +38,8 @@ export const commentsApi = createApi({
     getAllMarkers: builder.query({
       query: () => 'markers/overview/',
       providesTags: ['Comments'],
-      transformResponse: (response: any) => response.data.map((marker) => marker.attributes),
+      transformResponse: (response: any) => response.data
+        .map((marker) => (marker.attributes ? marker.attributes : marker)),
     }),
   }),
 });
@@ -57,8 +48,6 @@ export const {
   useLazyGetCommentsQuery,
   useAddNewCommentMutation,
   useReportCommentMutation,
-  useLazyGetLocationQuery,
-  useAddLocationMutation,
   useGetAllMarkersQuery,
   useGetCommentsQuery,
   useGetOverviewQuery,
