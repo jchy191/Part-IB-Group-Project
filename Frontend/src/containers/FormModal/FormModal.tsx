@@ -8,11 +8,13 @@ import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
 import accessCategories from '../../types/AccessCategories';
 import AddCategories from './components/AddCategories/AddCategories';
-import { useAddNewCommentMutation, useGetAllMarkersQuery, useGetCommentsQuery } from '../../store/commentsSlice';
+import {
+  useAddNewCommentMutation, useGetAllMarkersQuery, useGetCommentsQuery, useGetOverviewQuery,
+} from '../../store/commentsSlice';
 import { closeFormModal, selectIsFormModalOpen, selectLocation } from '../../store/modalSlice';
 import { useStoreDispatch, useStoreSelector } from '../../store/hooks';
 
-export default function CommentForm() {
+export default function FormModal() {
   const [newComment, setNewComment] = useState('');
   const [newTitle, setNewTitle] = useState('');
   const [newOpen, setNewOpen] = useState(null);
@@ -41,6 +43,7 @@ export default function CommentForm() {
   } = useStoreSelector((state) => selectLocation(state));
   const { refetch } = useGetCommentsQuery(placeId);
   const { refetch: refetchMarkers } = useGetAllMarkersQuery(0);
+  const { refetch: refetchOverview } = useGetOverviewQuery(placeId);
 
   const dispatch = useStoreDispatch();
   const isOpen = useStoreSelector((state) => selectIsFormModalOpen(state));
@@ -84,6 +87,7 @@ export default function CommentForm() {
     setNewSpend(null);
     refetch();
     refetchMarkers();
+    refetchOverview();
     handleClose();
   };
 

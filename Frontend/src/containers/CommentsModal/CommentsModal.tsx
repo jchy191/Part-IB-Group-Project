@@ -2,7 +2,8 @@ import {
   Modal, Box, Typography, Button, Grid,
 } from '@mui/material';
 import PlaceIcon from '@mui/icons-material/Place';
-import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
+import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded';
+import DisabledByDefaultRoundedIcon from '@mui/icons-material/DisabledByDefaultRounded';
 import React from 'react';
 import { useStoreDispatch, useStoreSelector } from '../../store/hooks';
 import {
@@ -16,8 +17,7 @@ function CommentsModal() {
   const isOpen = useStoreSelector((state) => selectIsLocationModalOpen(state));
   const { placeId, name, address } = useStoreSelector((state) => selectLocation(state));
   const { isSuccess: isCommentsSuccess, data: comments } = useGetCommentsQuery(placeId);
-  const { data: overview } = useGetOverviewQuery(placeId);
-  console.log(overview);
+  const { data: overview, isSuccess: isOverviewSuccess } = useGetOverviewQuery(placeId);
 
   const dispatch = useStoreDispatch();
 
@@ -63,13 +63,24 @@ function CommentsModal() {
           Share your view
         </Button>
         <Grid container sx={{ justifyContent: 'space-between' }}>
-          {isCommentsSuccess && Object.entries(accessCategories).map(([, cat]) => (
-            <Grid item xs={12}>
-              <Box sx={{ display: 'flex' }}>
-                <SquareRoundedIcon sx={{ color: cat.true_colour }} />
-                <Typography>{cat.t}</Typography>
-              </Box>
-            </Grid>
+          {isOverviewSuccess && Object.entries(accessCategories).map(([, cat]) => (
+            <>
+              <Grid item xs={12} sm={6}>
+                <Box sx={{ display: 'flex' }}>
+                  <CheckBoxRoundedIcon sx={{ color: cat.true_colour }} />
+                  <Typography>{cat.t}</Typography>
+                  <Typography fontWeight="bold">{` (${overview[`${cat.name}1`]})`}</Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Box sx={{ display: 'flex' }}>
+                  <DisabledByDefaultRoundedIcon sx={{ color: cat.false_colour }} />
+                  <Typography>{cat.f}</Typography>
+                  <Typography fontWeight="bold">{` (${overview[`${cat.name}0`]})`}</Typography>
+                </Box>
+              </Grid>
+
+            </>
           ))}
         </Grid>
         {isCommentsSuccess

@@ -11,11 +11,12 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
+import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded';
+import DisabledByDefaultRoundedIcon from '@mui/icons-material/DisabledByDefaultRounded';
 import accessCategories from '../../types/AccessCategories';
 import Map from '../Map/Map';
 import CommentsModal from '../CommentsModal/CommentsModal';
-import CommentForm from '../FormModal/CommentForm';
+import FormModal from '../FormModal/FormModal';
 import { Category } from '../../types/category';
 import { useStoreDispatch } from '../../store/hooks';
 import { changeCategory } from '../../store/markersSlice';
@@ -59,10 +60,10 @@ function ResponsiveDrawer(props) {
               label={(
                 <Typography variant="body1">
                   {accessCategories[cat].t}
-                  <SquareRoundedIcon fontSize="small" sx={{ color: accessCategories[cat].true_colour }} />
+                  <CheckBoxRoundedIcon fontSize="small" sx={{ color: accessCategories[cat].true_colour }} />
                   /
                   {accessCategories[cat].f}
-                  <SquareRoundedIcon fontSize="small" sx={{ color: accessCategories[cat].false_colour }} />
+                  <DisabledByDefaultRoundedIcon fontSize="small" sx={{ color: accessCategories[cat].false_colour }} />
                 </Typography>
 )}
               labelPlacement="end"
@@ -151,7 +152,7 @@ function ResponsiveDrawer(props) {
         }}
       >
         <CommentsModal />
-        <CommentForm />
+        <FormModal />
         <Map />
       </Box>
     </Box>
