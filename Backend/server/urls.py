@@ -37,4 +37,4 @@ urlpatterns = [
     re_path(r'^.*/$', render_react)
 ]
 
-#urlpatterns = format_suffix_patterns(urlpatterns)
+# urlpatterns = format_suffix_patterns(urlpatterns)

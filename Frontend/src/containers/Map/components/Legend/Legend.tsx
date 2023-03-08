@@ -10,12 +10,12 @@ export default function Legend() {
   const category = useStoreSelector(selectCategory);
   return (
     <Paper
-      elevation={6}
+      elevation={3}
       sx={{
-        m: 2,
+        m: { xs: 1, sm: 2 },
         p: 1,
         position: 'absolute',
-        top: '90%',
+        top: 'calc(100% - 100px)',
         bgcolor: '#ffffff',
         display: 'flex',
         boxShadow: 1,

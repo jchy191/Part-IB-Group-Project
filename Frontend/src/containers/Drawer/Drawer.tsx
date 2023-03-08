@@ -103,11 +103,11 @@ function ResponsiveDrawer(props) {
         sx={{
           mr: 2,
           display: { md: 'none' },
-          backgroundColor: '#eeeeee',
+          backgroundColor: '#d7d7d7',
           color: 'black',
-          position: 'absolute',
-          top: '3%',
-          left: '3%',
+          position: 'fixed',
+          top: '20px',
+          left: '30px',
           zIndex: 1000,
           '&:hover': { backgroundColor: '#cccccc' },
         }}
