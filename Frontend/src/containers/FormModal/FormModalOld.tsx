@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import PlaceIcon from '@mui/icons-material/Place';
-import { DialogContentText } from '@mui/material';
 import accessCategories from '../../types/AccessCategories';
 import AddCategories from './components/AddCategories/AddCategories';
 import {
   useAddNewCommentMutation, useGetAllMarkersQuery, useGetCommentsQuery, useGetOverviewQuery,
 } from '../../store/commentsSlice';
-import {
-  closeFormModal, openLocationModal, selectIsFormModalOpen, selectLocation,
-} from '../../store/modalSlice';
+import { closeFormModal, selectIsFormModalOpen, selectLocation } from '../../store/modalSlice';
 import { useStoreDispatch, useStoreSelector } from '../../store/hooks';
 
 export default function FormModal() {
@@ -66,7 +60,6 @@ export default function FormModal() {
 
   const handleClose = () => {
     dispatch(closeFormModal());
-    dispatch(openLocationModal());
   };
 
   const handleAddComment = async () => {
@@ -99,21 +92,31 @@ export default function FormModal() {
   };
 
   return (
-    <Dialog
+    <Modal
       open={isOpen}
       onClose={handleClose}
-      scroll="paper"
-      aria-labelledby="scroll-dialog-title"
-      aria-describedby="scroll-dialog-description"
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
     >
-      <DialogTitle id="scroll-dialog-title">
-        {' '}
-        <Typography variant="h5" component="h5" mb={3}>
-          <PlaceIcon fontSize="medium" sx={{ mt: 1 }} />
+      <Box
+        overflow="scroll"
+        sx={{
+          bgcolor: 'white',
+          boxShadow: 3,
+          p: 2,
+          margin: 'auto',
+          height: 0.8,
+          width: 0.8,
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        <Typography variant="h4" component="h4" align="center">
           {`${name} ${address}`}
         </Typography>
-      </DialogTitle>
-      <DialogContent dividers>
+        <Divider sx={{ mb: 2, m: 2 }} />
         <TextField
           variant="standard"
           fullWidth
@@ -137,22 +140,19 @@ export default function FormModal() {
         </Typography>
         <FormGroup sx={{ ml: 2 }}>
           {Object.entries(accessCategories).map(([, cat]) => (
-            <AddCategories
-              cat={cat}
-              state={categoryState[cat.name]}
-              handler={handlers[cat.name]}
-            />
+            <AddCategories cat={cat} state={categoryState[cat.name]} handler={handlers[cat.name]} />
           ))}
         </FormGroup>
-        <DialogContentText
-          id="scroll-dialog-description"
-          tabIndex={-1}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="error">Close</Button>
-        <Button onClick={handleAddComment}>Submit</Button>
-      </DialogActions>
-    </Dialog>
+        <Divider sx={{ mb: 2, m: 2 }} />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleAddComment}
+          sx={{ ml: 2 }}
+        >
+          Submit Comment
+        </Button>
+      </Box>
+    </Modal>
   );
 }

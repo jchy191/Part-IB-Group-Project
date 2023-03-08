@@ -8,11 +8,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-// import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded';
 import DisabledByDefaultRoundedIcon from '@mui/icons-material/DisabledByDefaultRounded';
-// import AppBar from '@mui/material/AppBar';
 import accessCategories from '../../types/AccessCategories';
 import Map from '../Map/Map';
 import EntriesModal from '../EntriesModal/EntriesModal';
@@ -46,14 +44,6 @@ function ResponsiveDrawer(props) {
           Cambridge Land Justice
         </Typography>
       </Box>
-      {/* <Box
-        component="img"
-        sx={{
-          height: 50,
-          width: 50,
-        }}
-        src={`${process.env.PUBLIC_URL}/CLJLogo.png`}
-      /> */}
       <Box display="flex">
         <Typography variant="h6" sx={{ p: 2 }}>
           Categories
@@ -103,7 +93,7 @@ function ResponsiveDrawer(props) {
         sx={{
           mr: 2,
           display: { md: 'none' },
-          backgroundColor: '#d7d7d7',
+          backgroundColor: '#eeeeee',
           color: 'black',
           position: 'fixed',
           top: '20px',
