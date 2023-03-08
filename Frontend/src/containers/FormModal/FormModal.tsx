@@ -108,8 +108,12 @@ export default function FormModal() {
     >
       <DialogTitle id="scroll-dialog-title">
         {' '}
-        <Typography variant="h5" component="h5" mb={3}>
-          <PlaceIcon fontSize="medium" sx={{ mt: 1 }} />
+        <Typography display={{ xs: 'none', sm: 'block' }} variant="h5" component="h5" mb={2}>
+          <PlaceIcon fontSize="medium" sx={{ mt: 1, position: 'relative', right: '5px' }} />
+          {`${name} ${address}`}
+        </Typography>
+        <Typography display={{ xs: 'block', sm: 'none' }} variant="h6" component="h5" mb={1}>
+          <PlaceIcon fontSize="small" sx={{ mt: 1, position: 'relative', right: '5px' }} />
           {`${name} ${address}`}
         </Typography>
       </DialogTitle>

@@ -50,6 +50,27 @@ function EntriesModal() {
     return <></>;
   }
 
+  const categories = (typography, size) => isOverviewSuccess
+    && overview
+    && Object.entries(accessCategories).map(([, cat]) => (
+      <>
+        <Grid item xs={12} sm={6}>
+          <Box sx={{ display: 'flex' }}>
+            <CheckBoxRoundedIcon fontSize={size} sx={{ color: cat.true_colour }} />
+            {overview[`${cat.name}_type`] ? <Typography variant={typography} fontWeight="bold">{cat.t}</Typography> : <Typography variant={typography}>{cat.t}</Typography>}
+            <Typography variant={typography} fontWeight="bold">{` (${overview[`${cat.name}1`]})`}</Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Box sx={{ display: 'flex' }}>
+            <DisabledByDefaultRoundedIcon fontSize={size} sx={{ color: cat.false_colour }} />
+            {(overview[`${cat.name}_type`] !== null && !overview[`${cat.name}_type`]) ? <Typography variant={typography} fontWeight="bold">{cat.f}</Typography> : <Typography variant={typography}>{cat.f}</Typography>}
+            <Typography variant={typography} fontWeight="bold">{` (${overview[`${cat.name}0`]})`}</Typography>
+          </Box>
+        </Grid>
+      </>
+    ));
+
   return (
     <Dialog
       open={isOpen}
@@ -60,33 +81,22 @@ function EntriesModal() {
     >
       <DialogTitle id="scroll-dialog-title">
         {' '}
-        <Typography variant="h5" component="h5" mb={3}>
-          <PlaceIcon fontSize="medium" sx={{ mt: 1 }} />
+        <Typography display={{ xs: 'none', sm: 'block' }} variant="h5" component="h5" mb={2}>
+          <PlaceIcon fontSize="medium" sx={{ mt: 1, position: 'relative', right: '5px' }} />
           {`${name} ${address}`}
         </Typography>
-        <Grid container sx={{ justifyContent: 'space-between' }}>
-          {isOverviewSuccess && overview && Object.entries(accessCategories).map(([, cat]) => (
-            <>
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex' }}>
-                  <CheckBoxRoundedIcon sx={{ color: cat.true_colour }} />
-                  {overview[`${cat.name}_type`] ? <Typography fontWeight="bold">{cat.t}</Typography> : <Typography>{cat.t}</Typography>}
-                  <Typography fontWeight="bold">{` (${overview[`${cat.name}1`]})`}</Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex' }}>
-                  <DisabledByDefaultRoundedIcon sx={{ color: cat.false_colour }} />
-                  {(overview[`${cat.name}_type`] !== null && !overview[`${cat.name}_type`]) ? <Typography fontWeight="bold">{cat.f}</Typography> : <Typography>{cat.f}</Typography>}
-                  <Typography fontWeight="bold">{` (${overview[`${cat.name}0`]})`}</Typography>
-                </Box>
-              </Grid>
-
-            </>
-          ))}
+        <Typography display={{ xs: 'block', sm: 'none' }} variant="h6" component="h5" mb={1}>
+          <PlaceIcon fontSize="small" sx={{ mt: 1, position: 'relative', right: '5px' }} />
+          {`${name} ${address}`}
+        </Typography>
+        <Grid display={{ xs: 'none', sm: 'flex' }} container sx={{ justifyContent: 'space-between' }}>
+          {categories('body1', 'medium')}
         </Grid>
       </DialogTitle>
       <DialogContent dividers>
+        <Grid display={{ xs: 'flex', sm: 'none' }} container sx={{ justifyContent: 'space-between' }} mb={2}>
+          {categories('body2', 'small')}
+        </Grid>
         {isCommentsSuccess
                       && comments
                       && comments.filter((entry) => entry.title && entry.comment).map((entry) => (
