@@ -20,7 +20,7 @@ class Entry(models.Model):
     groups = models.BooleanField(default=None, null=True)
     spend = models.BooleanField(default=None, null=True)
     comment = models.TextField(default='', blank=True)
-    title = models.TextField(default='', blank=True)
+    title = models.CharField(max_length=45, default='', blank=True)
     reported = models.IntegerField(default=0)
     pinned = models.BooleanField(default=False)
     name = models.TextField(default='')

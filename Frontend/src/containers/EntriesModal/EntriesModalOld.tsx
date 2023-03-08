@@ -1,12 +1,6 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
+import {
+  Modal, Box, Typography, Button, Grid,
+} from '@mui/material';
 import PlaceIcon from '@mui/icons-material/Place';
 import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded';
 import DisabledByDefaultRoundedIcon from '@mui/icons-material/DisabledByDefaultRounded';
@@ -41,7 +35,6 @@ function EntriesModal() {
   };
 
   const handleOpenFormModal = () => {
-    dispatch(closeLocationModal());
     dispatch(openFormModal());
   };
 
@@ -51,17 +44,28 @@ function EntriesModal() {
   }
 
   return (
-    <Dialog
+    <Modal
       open={isOpen}
       onClose={handleClose}
-      scroll="paper"
-      aria-labelledby="scroll-dialog-title"
-      aria-describedby="scroll-dialog-description"
     >
-      <DialogTitle id="scroll-dialog-title">
-        {' '}
-        <Typography variant="h5" component="h5" mb={3}>
-          <PlaceIcon fontSize="medium" sx={{ mt: 1 }} />
+      <Box
+        textAlign="center"
+        overflow="scroll"
+        sx={{
+          bgcolor: 'white',
+          boxShadow: 3,
+          p: 2,
+          margin: 'auto',
+          height: 0.8,
+          width: 0.8,
+          position: 'absolute' as 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        <Typography variant="h4" component="h4" mb={3}>
+          <PlaceIcon fontSize="large" sx={{ mt: 1 }} />
           {`${name} ${address}`}
         </Typography>
         <Grid container sx={{ justifyContent: 'space-between' }}>
@@ -85,23 +89,22 @@ function EntriesModal() {
             </>
           ))}
         </Grid>
-      </DialogTitle>
-      <DialogContent dividers>
+        <Button
+          onClick={handleOpenFormModal}
+          variant="contained"
+          color="primary"
+          sx={{ m: 2 }}
+        >
+          Share your view
+        </Button>
         {isCommentsSuccess
-                      && comments
-                      && comments.filter((entry) => entry.title && entry.comment).map((entry) => (
-                        <Comment entry={entry} key={entry.id} />
-                      ))}
-        <DialogContentText
-          id="scroll-dialog-description"
-          tabIndex={-1}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="error">Close</Button>
-        <Button onClick={handleOpenFormModal}>Share your view</Button>
-      </DialogActions>
-    </Dialog>
+          && comments
+          && comments.filter((entry) => entry.title && entry.comment).map((entry) => (
+            <Comment entry={entry} key={entry.id} />
+          ))}
+
+      </Box>
+    </Modal>
   );
 }
 

@@ -46,23 +46,23 @@ function Comment({ entry }) {
 
   return (
     <>
-      <Box textAlign="start" key={entry.id} sx={{ mt: 2 }}>
+      <Box textAlign="start" key={entry.id} sx={{ mb: 2 }}>
         <Divider sx={{ mb: 2 }} />
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="h6" component="h6" sx={{ mt: -1 }}>
-            <AccountCircleIcon fontSize="small" />
-            {` ${entry.title}`}
+          <Typography variant="body1" component="h6" sx={{ fontWeight: 'bold', mt: -1 }}>
+            <AccountCircleIcon fontSize="inherit" />
+            {` ${entry.title.substring(0, 45)}`}
           </Typography>
           <Box sx={{ display: 'flex' }}>
-            <Typography variant="body2">
-              {`${date.format('DD MMM YYYY')}`}
-            </Typography>
             {entry.pinned && (
             <PushPinRoundedIcon
               fontSize="small"
               sx={{ color: '#7b7b7b' }}
             />
             ) }
+            <Typography variant="body2">
+              {`${date.format('DD MMM YYYY')}`}
+            </Typography>
           </Box>
         </Box>
 

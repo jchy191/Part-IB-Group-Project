@@ -122,6 +122,7 @@ export default function FormModal() {
           fullWidth
           label="Tell us about yourself (e.g., Mother of four)"
           value={newTitle}
+          inputProps={{ maxLength: 45 }}
           onChange={(e) => setNewTitle(e.target.value)}
         />
         <Divider sx={{ mb: 2, m: 2 }} />
