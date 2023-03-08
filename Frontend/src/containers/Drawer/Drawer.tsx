@@ -112,7 +112,7 @@ function ResponsiveDrawer(props) {
             sx={{
               mr: 2,
               display: { md: 'none' },
-              backgroundColor: 'white',
+              backgroundColor: '#cccccc',
               color: 'black',
             }}
           >
