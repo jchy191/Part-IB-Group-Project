@@ -8,11 +8,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
+// import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded';
 import DisabledByDefaultRoundedIcon from '@mui/icons-material/DisabledByDefaultRounded';
-import AppBar from '@mui/material/AppBar';
+// import AppBar from '@mui/material/AppBar';
 import accessCategories from '../../types/AccessCategories';
 import Map from '../Map/Map';
 import EntriesModal from '../EntriesModal/EntriesModal';
@@ -74,10 +74,10 @@ function ResponsiveDrawer(props) {
               label={(
                 <Typography variant="body1">
                   {accessCategories[cat].t}
-                  <CheckBoxRoundedIcon fontSize="small" sx={{ color: accessCategories[cat].true_colour }} />
+                  <CheckBoxRoundedIcon fontSize="small" sx={{ color: accessCategories[cat].true_colour, position: 'relative', top: '5px' }} />
                   /
                   {accessCategories[cat].f}
-                  <DisabledByDefaultRoundedIcon fontSize="small" sx={{ color: accessCategories[cat].false_colour }} />
+                  <DisabledByDefaultRoundedIcon fontSize="small" sx={{ color: accessCategories[cat].false_colour, position: 'relative', top: '5px' }} />
                 </Typography>
 )}
               labelPlacement="end"
@@ -94,32 +94,26 @@ function ResponsiveDrawer(props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
+
+      <IconButton
+        aria-label="open drawer"
+        color="inherit"
+        edge="start"
+        onClick={handleDrawerToggle}
         sx={{
-          width: { md: `calc(100% - ${drawerWidth}px)` },
-          ml: { md: `${drawerWidth}px` },
-          background: 'transparent',
-          boxShadow: 'none',
+          mr: 2,
+          display: { md: 'none' },
+          backgroundColor: '#eeeeee',
+          color: 'black',
+          position: 'absolute',
+          top: '3%',
+          left: '3%',
+          zIndex: 1000,
+          '&:hover': { backgroundColor: '#cccccc' },
         }}
       >
-        <Toolbar>
-          <IconButton
-            aria-label="open drawer"
-            color="inherit"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{
-              mr: 2,
-              display: { md: 'none' },
-              backgroundColor: '#cccccc',
-              color: 'black',
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+        <MenuIcon />
+      </IconButton>
       <Box
         component="nav"
         sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}

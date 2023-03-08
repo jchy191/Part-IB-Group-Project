@@ -18,7 +18,7 @@ export default function Legend() {
         top: '90%',
         bgcolor: '#ffffff',
         display: 'flex',
-        boxShadow: 2,
+        boxShadow: 1,
         zIndex: 1000,
       }}
     >
@@ -30,7 +30,7 @@ export default function Legend() {
         }}
         src={`${process.env.PUBLIC_URL}/${accessCategories[category].name}_true.png`}
       />
-      <Typography variant="body2" sx={{ m: 1, fontWeight: 'bold' }}>
+      <Typography variant="caption" sx={{ m: 1, fontWeight: 'bold' }}>
         {accessCategories[category].t}
       </Typography>
       <Box
@@ -41,7 +41,7 @@ export default function Legend() {
         }}
         src={`${process.env.PUBLIC_URL}/${accessCategories[category].name}_false.png`}
       />
-      <Typography variant="body2" sx={{ m: 1, fontWeight: 'bold' }}>
+      <Typography variant="caption" sx={{ m: 1, fontWeight: 'bold' }}>
         {accessCategories[category].f}
       </Typography>
       <Box
@@ -52,7 +52,7 @@ export default function Legend() {
         }}
         src={`${process.env.PUBLIC_URL}/grey.png`}
       />
-      <Typography variant="body2" sx={{ m: 1, fontWeight: 'bold' }}>
+      <Typography variant="caption" sx={{ m: 1, fontWeight: 'bold' }}>
         Undecided
       </Typography>
     </Paper>
